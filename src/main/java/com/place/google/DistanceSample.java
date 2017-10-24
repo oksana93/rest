@@ -27,7 +27,7 @@ public class DistanceSample extends AbstractSample {
         final double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(addressPoint.lat))
                 * cos(deg2rad(subwayStationPoint.lat)) * sin(dlng / 2) * sin(dlng / 2);
         final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-        System.out.println("distance: " + c * EARTH_RADIUS); // получаем расстояние в километрах
+        System.out.println("distance: " + c * EARTH_RADIUS + " km"); // получаем расстояние в километрах
     }
 
     /**
