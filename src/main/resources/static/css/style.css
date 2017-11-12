@@ -153,13 +153,11 @@ td select {
 }
 
 #page{
-    width:900px;
-    margin:0 auto;
+    width:600px;
     background:#dec0de;
 }
 
 #map_canvas{
-    width:700px;
+    width:600px;
     height:500px;
-    margin:0 auto;
 }

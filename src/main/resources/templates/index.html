@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
 
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script th:inline="javascript" src="http://maps.google.com/maps/api/js?libraries=places,geometry"></script>
 
     <script type="text/javascript"
             src="js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript"
-            src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            src="js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="/js/main.js"></script>
 
     <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+          href="static/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="/css/style.css"/>
 
@@ -22,63 +22,18 @@
 </head>
 <body>
 <!--VIEW-->
+<div class="gMap-holder" id="map_canvas"></div>
+<section id="content">
+    <div class="container">
+        <div class="row">
+            <!--<hr>-->
+            <div class="col-md-6 col-md-offset-3">
+                <form name="test" class="test" method="POST" th:action="@{/test}">
 
-<div id="page">
-    <div class="gMap-holder" id="map_canvas"></div>
-    <script type="text/javascript">
-
-        var myLatlng = new google.maps.LatLng(53.212765, 50.178392);
-        var myOptions = {
-            zoom: 15,
-            scrollwheel: false,
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControlOptions: {
-                position: google.maps.ControlPosition.BOTTOM_LEFT
-            }
-        }
-
-            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-            var markerImage = new google.maps.MarkerImage(
-                'images/bg-num.png',
-                new google.maps.Size(33,33),
-                new google.maps.Point(0,0),
-                new google.maps.Point(0,33)
-            );
-            var markerImageHover = new google.maps.MarkerImage(
-                'images/bg-num.png',
-                new google.maps.Size(33,33),
-                new google.maps.Point(0,33),
-                new google.maps.Point(0,33)
-            );
-
-            var marker = new google.maps.Marker({
-                icon: markerImage,
-                position: myLatlng,
-                map: map,
-                title:"Hello World!"
-            });
-
-            var content = document.createElement('div');
-            content.innerHTML = "<strong>Hello world</strong> + JS ^_^";
-            var infowindow = new google.maps.InfoWindow({
-                content: content
-            });
-
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map, marker);
-            });
-
-            google.maps.event.addListener(marker, 'mouseover', function() {
-                marker.setIcon(markerImageHover);
-            });
-
-            google.maps.event.addListener(marker, 'mouseout', function() {
-                marker.setIcon(markerImage);
-            });
-
-    </script>
-</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
