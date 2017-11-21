@@ -1,4 +1,4 @@
-package com.place.google;
+package com.place.google.second;
 
 import static java.lang.Math.atan2;
 import static java.lang.Math.cos;

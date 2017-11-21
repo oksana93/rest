@@ -14,10 +14,12 @@
 
         infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(map);
+        // PlacesService - contains methods related to searching for
+        // places and retrieving details about a place.
         var request = {
             location: pyrmont,
-            radius: 500,
-            query: ['restaurant']
+            radius: 1000,
+            query: ['кинотеатр']
         };
 
         service = new google.maps.places.PlacesService(map);
