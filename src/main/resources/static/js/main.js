@@ -7,7 +7,7 @@ var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
 var request;
 var options;
 var infoWindowForPlaces = new google.maps.InfoWindow();
-var yourPosition = {lat: 53.212702, lng: 50.178725};
+var yourPosition;
 
 $(function () {
     initMap();
@@ -25,7 +25,7 @@ function initMap() {
     if (navigator.geolocation) {
         options = {
             enableHighAccuracy: true,
-            timeout: 10000,
+            timeout: 20000,
             maximumAge: 0
         };
         navigator.geolocation.watchPosition(
@@ -34,6 +34,17 @@ function initMap() {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
+                marketYourPosition = new google.maps.Marker({
+                    map: googleMap,
+                    position: yourPosition,
+                    icon: iconYourPosition,
+                    label: {
+                        color: 'red',
+                        fontWeight: 'bold',
+                        text: 'You',
+                        fontSize: "20px"
+                    }
+                });
             },
             function (error) {
                 handleLocationError(true, infoWindowForPlaces, googleMap.getCenter());
@@ -43,18 +54,6 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindowForPlaces, googleMap.getCenter());
     }
-
-    marketYourPosition = new google.maps.Marker({
-        map: googleMap,
-        position: yourPosition,
-        icon: iconYourPosition,
-        label: {
-            color: 'red',
-            fontWeight: 'bold',
-            text: 'You',
-            fontSize: "20px"
-        }
-    });
 
     google.maps.event.addListener(marketYourPosition, 'click', function () {
         infoWindowForPlaces.setContent("You");
