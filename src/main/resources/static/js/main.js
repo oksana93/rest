@@ -7,7 +7,7 @@ var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
 var request;
 var options;
 var infoWindowForPlaces = new google.maps.InfoWindow();
-var yourPosition;
+var yourPosition = {lat: 53.212702, lng: 50.178725};
 
 $(function () {
     initMap();
