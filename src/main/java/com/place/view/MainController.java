@@ -13,4 +13,8 @@ public class MainController {
         return "index";
     }
 
+    @RequestMapping("/2")
+    public String map(Model model) {
+        return "map";
+    }
 }
