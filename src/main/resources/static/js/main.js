@@ -1,6 +1,6 @@
 'use strict';
 var defaultPlaces = "Места отдыха";
-var defaultRadius = "1000";
+var defaultRadius = 1;
 var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
@@ -57,7 +57,7 @@ function initMap() {
                     infoWindowForPlaces.setContent("You");
                     infoWindowForPlaces.open(googleMap, this);
                 });
-                mapRequest(yourPosition, defaultRadius, defaultPlaces);
+                var request = mapRequest(yourPosition, defaultRadius, defaultPlaces);
                 service();
             },
             function (error) {

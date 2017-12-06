@@ -1,4 +1,4 @@
-package com.place.google.second;
+package com.place.google.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
