@@ -1,17 +1,18 @@
 'use strict';
-var defaultPlaces = "Места отдыха";
-var defaultRadius = 1;
+var defaultKeyWord = "Театр";
+var defaultRadius = '1000';
 var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
 var zoom = 15;
 
-var request;
-var options;
-var placesService;
+var request; // map's params (markers, radius...)
+var options; // geolocation's params
+var placesService; // set markers
 var googleMap;
-var yourPosition;
-var marketYourPosition;
+var startPosition; // geolocation (position)
+var markerStartPosition; // geolocation (marker)
+var markers = []; // other markers
 
 $(function () {
     initMap();
@@ -22,29 +23,29 @@ function initMap() {
     if (navigator.geolocation) {
         options = {
             enableHighAccuracy: true,
-            timeout: 20000,
+            timeout: 10000,
             maximumAge: 0
         };
 
         navigator.geolocation.watchPosition(
             function (position) {
 
-                yourPosition = {
+                startPosition = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
 
                 googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
-                    center: yourPosition, //центрирование
-                    zoom: zoom, // масштабирование
-                    navigationControlOptions: { // геолокация
+                    center: startPosition,
+                    zoom: zoom,
+                    navigationControlOptions: {
                         style: google.maps.NavigationControlStyle.SMALL
                     }
                 });
 
-                marketYourPosition = new google.maps.Marker({
+                markerStartPosition = new google.maps.Marker({
                     map: googleMap,
-                    position: yourPosition,
+                    position: startPosition,
                     icon: iconYourPosition,
                     label: {
                         color: 'red',
@@ -53,12 +54,15 @@ function initMap() {
                         fontSize: "20px"
                     }
                 });
-                google.maps.event.addListener(marketYourPosition, 'click', function () {
+
+                google.maps.event.addListener(markerStartPosition, 'click', function () {
                     infoWindowForPlaces.setContent("You");
                     infoWindowForPlaces.open(googleMap, this);
                 });
-                var request = mapRequest(yourPosition, defaultRadius, defaultPlaces);
+
+                var request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
                 service();
+                initSearchWindow();
             },
             function (error) {
                 handleLocationError(true, infoWindowForPlaces, googleMap.getCenter());
@@ -69,23 +73,49 @@ function initMap() {
         handleLocationError(false, infoWindowForPlaces, googleMap.getCenter());
 
         googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
-            center: defaultPosition, //центрирование
-            zoom: zoom, // масштабирование
-            navigationControlOptions: { // геолокация
+            center: defaultPosition,
+            zoom: zoom,
+            navigationControlOptions: {
                 style: google.maps.NavigationControlStyle.SMALL
             }
         });
 
-        mapRequest(defaultPosition, defaultRadius, defaultPlaces);
+        mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
         service();
+        initSearchWindow();
     }
 }
 
+function newGoogleMapByStartPosition(position) {
+    googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
+        center: position,
+        zoom: zoom,
+        navigationControlOptions: {
+            style: google.maps.NavigationControlStyle.SMALL
+        }
+    });
+}
+
+function setStartPosition(position) {
+    markerStartPosition = new google.maps.Marker({
+        map: googleMap,
+        position: position,
+        icon: iconYourPosition,
+        label: {
+            color: 'red',
+            fontWeight: 'bold',
+            text: 'You',
+            fontSize: "20px"
+        }
+    });
+}
+
+// request for search
 function mapRequest(location, radius, query) {
     request = {
         location: location,
         radius: radius,
-        query: [query]
+        name: [query]
     };
 }
 
@@ -94,7 +124,7 @@ function service() {
     // PlacesService - contains methods related to searching for
     // places and retrieving details about a place.
     placesService = new google.maps.places.PlacesService(googleMap);
-    placesService.textSearch(request, callback);
+    placesService.nearbySearch(request, callback);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -114,14 +144,72 @@ function callback(results, status) {
 
 function createMarker(place) {
     var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
+    markers = new google.maps.Marker({
         map: googleMap,
         position: place.geometry.location
     });
 
-    google.maps.event.addListener(marker, 'click', function () {
+    google.maps.event.addListener(markers, 'click', function () {
         infoWindowForPlaces.setContent(place.name);
         infoWindowForPlaces.open(googleMap, this);
     });
 }
 
+function initSearchWindow() {
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    googleMap.addListener('bounds_changed', function () {
+        searchBox.setBounds(googleMap.getBounds());
+    });
+
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.get("pac-input");
+
+        if (places.length == 0) {
+            return;
+        }
+
+
+        // Clear out the old markers.
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        // var bounds = new google.maps.LatLngBounds();
+        // places.forEach(function(place) {
+        //     if (!place.geometry) {
+        //         console.log("Returned place contains no geometry");
+        //         return;
+        //     }
+        //     var icon = {
+        //         url: place.icon,
+        //         size: new google.maps.Size(71, 71),
+        //         origin: new google.maps.Point(0, 0),
+        //         anchor: new google.maps.Point(17, 34),
+        //         scaledSize: new google.maps.Size(25, 25)
+        //     };
+        //
+        //     // Create a marker for each place.
+        //     markers.push(new google.maps.Marker({
+        //         map: map,
+        //         icon: icon,
+        //         title: place.name,
+        //         position: place.geometry.location
+        //     }));
+        //
+        //     if (place.geometry.viewport) {
+        //         // Only geocodes have viewport.
+        //         bounds.union(place.geometry.viewport);
+        //     } else {
+        //         bounds.extend(place.geometry.location);
+        //     }
+        // });
+        // map.fitBounds(bounds);
+    });
+}

@@ -57,7 +57,7 @@ public class GeoPack {
         return resultMap;
     }
 
-    /* Геодекодирование */
+    /* Геокодирование */
     public static String getAddress(Point point){
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("language", "ru");// язык данные на котором мы хочем получить
@@ -96,8 +96,6 @@ public class GeoPack {
         Point point = new Point(location.getDouble("lng"), location.getDouble("lat"));
         return point;
     }
-
-
 
     private static double deg2rad(final double degree) {
         return degree * (Math.PI / 180);
