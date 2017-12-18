@@ -40,8 +40,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <form name="test" class="test" method="POST" th:action="@{/test}">
+                <form name="test" method="POST" class="controls" th:action="@{/test}">
                     <input id="pac-input" name="pac-input" class="controls" type="text" placeholder="Search Box"/>
+                    <button id="pac-button" type="submit" class="controls" name="send">OK</button>
                 </form>
             </div>
         </div>

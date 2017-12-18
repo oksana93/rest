@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 public class GeoPack {
     final static Logger logger = Logger.getLogger(GeoPack.class);
     final static String proxy = "http://anonymouse.org/cgi-bin/anon-www.cgi/";
-    final static String baseUrl = proxy + "http://maps.googleapis.com/maps/api/directions/json";// путь к Geocoding API по
+    final static String baseUrl = proxy + "http://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по
 
     /* Вычисление расстояния и времени между пунктами */
     public static Map<String,String> getDistanceInfo(Point origin, Point destination,String mode) {
@@ -80,7 +80,7 @@ public class GeoPack {
     }
 
     /* Геодекодирование */
-    private static Point getPoint(final String address) throws IOException {
+    public static Point getPoint(final String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
         requestParams.put("address", address);// адрес, который нужно геокодировать
@@ -97,7 +97,7 @@ public class GeoPack {
         return point;
     }
 
-    private static double deg2rad(final double degree) {
+    public static double deg2rad(final double degree) {
         return degree * (Math.PI / 180);
     }
 

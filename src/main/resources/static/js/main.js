@@ -156,9 +156,12 @@ function createMarker(place) {
 }
 
 function initSearchWindow() {
+    var form = document.getElementsByClassName("controls");
     var input = document.getElementById('pac-input');
+    var button = document.getElementById('pac-button');
     var searchBox = new google.maps.places.SearchBox(input);
-    googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(form);
+    // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(button);
 
     // Bias the SearchBox results towards current map's viewport.
     googleMap.addListener('bounds_changed', function () {
@@ -172,8 +175,6 @@ function initSearchWindow() {
             return;
         }
 
-
-        // Clear out the old markers.
         // Clear out the old markers.
         markers.forEach(function(marker) {
             marker.setMap(null);
