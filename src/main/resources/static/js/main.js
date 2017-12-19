@@ -162,7 +162,7 @@ function initSearchWindow() {
     var typeRest = document.getElementById('type-rest');
     var radius = document.getElementById('radius');
     var button = document.getElementById('button');
-    var searchBox = new google.maps.places.SearchBox(location);l
+    var searchBox = new google.maps.places.SearchBox(location);
 
     googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(location);
     googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(typeRest);
