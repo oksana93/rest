@@ -1,6 +1,6 @@
 'use strict';
-var defaultKeyWord = "Театр";
-var defaultRadius = '1000';
+var defaultKeyWord = "Кинотеатр";
+var defaultRadius = '2000';
 var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
@@ -19,7 +19,6 @@ $(function () {
 });
 
 function initMap() {
-
     if (navigator.geolocation) {
         options = {
             enableHighAccuracy: true,
@@ -34,35 +33,38 @@ function initMap() {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
+                setTimeout(function () {
+                    googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
+                        center: startPosition,
+                        zoom: zoom,
+                        navigationControlOptions: {
+                            style: google.maps.NavigationControlStyle.SMALL
+                        }
+                    });
 
-                googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
-                    center: startPosition,
-                    zoom: zoom,
-                    navigationControlOptions: {
-                        style: google.maps.NavigationControlStyle.SMALL
-                    }
-                });
+                    markerStartPosition = new google.maps.Marker({
+                        map: googleMap,
+                        position: startPosition,
+                        icon: iconYourPosition,
+                        label: {
+                            color: 'red',
+                            fontWeight: 'bold',
+                            text: 'You',
+                            fontSize: "20px"
+                        }
+                    });
 
-                markerStartPosition = new google.maps.Marker({
-                    map: googleMap,
-                    position: startPosition,
-                    icon: iconYourPosition,
-                    label: {
-                        color: 'red',
-                        fontWeight: 'bold',
-                        text: 'You',
-                        fontSize: "20px"
-                    }
-                });
+                    google.maps.event.addListener(markerStartPosition, 'click', function () {
+                        infoWindowForPlaces.setContent('<p>Текущее положение</p>' +
+                            '<p>lat: ' + startPosition.lat + '</p>' +
+                            '<p>lng: ' + startPosition.lng);
+                        infoWindowForPlaces.open(googleMap, this);
+                    });
 
-                google.maps.event.addListener(markerStartPosition, 'click', function () {
-                    infoWindowForPlaces.setContent("You");
-                    infoWindowForPlaces.open(googleMap, this);
-                });
-
-                var request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
-                service();
-                initSearchWindow();
+                    request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
+                    service();
+                    initSearchWindow();
+                }, 500);
             },
             function (error) {
                 handleLocationError(true, infoWindowForPlaces, googleMap.getCenter());
@@ -104,7 +106,7 @@ function setStartPosition(position) {
         label: {
             color: 'red',
             fontWeight: 'bold',
-            text: 'You',
+            text: 'Текущее положение\nlat: ' + position.lat + '\nlng: ' + position.lng,
             fontSize: "20px"
         }
     });
@@ -176,41 +178,41 @@ function initSearchWindow() {
         }
 
         // Clear out the old markers.
-        markers.forEach(function(marker) {
+        markers.forEach(function (marker) {
             marker.setMap(null);
         });
         markers = [];
 
         // For each place, get the icon, name and location.
         // var bounds = new google.maps.LatLngBounds();
-        // places.forEach(function(place) {
-        //     if (!place.geometry) {
-        //         console.log("Returned place contains no geometry");
-        //         return;
-        //     }
-        //     var icon = {
-        //         url: place.icon,
-        //         size: new google.maps.Size(71, 71),
-        //         origin: new google.maps.Point(0, 0),
-        //         anchor: new google.maps.Point(17, 34),
-        //         scaledSize: new google.maps.Size(25, 25)
-        //     };
-        //
-        //     // Create a marker for each place.
-        //     markers.push(new google.maps.Marker({
-        //         map: map,
-        //         icon: icon,
-        //         title: place.name,
-        //         position: place.geometry.location
-        //     }));
-        //
-        //     if (place.geometry.viewport) {
-        //         // Only geocodes have viewport.
-        //         bounds.union(place.geometry.viewport);
-        //     } else {
-        //         bounds.extend(place.geometry.location);
-        //     }
-        // });
-        // map.fitBounds(bounds);
+        places.forEach(function (place) {
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
     });
 }

@@ -1,7 +1,8 @@
 package com.place.google.main;
 
-public class Point
-{
+import java.io.Serializable;
+
+public class Point implements Serializable {
     /**
      * Класс точки, хранит зачения в градусах
      */
