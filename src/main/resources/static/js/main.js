@@ -25,6 +25,14 @@ $(function () {
     initMap();
 });
 
+$(document).ready(function(){
+    $(".trigger").click(function(){
+        $(".panel").toggle("fast");
+        $(this).toggleClass("active");
+        return false;
+    });
+});
+
 function initMap() {
     if (navigator.geolocation) {
         options = {
