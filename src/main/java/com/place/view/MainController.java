@@ -31,7 +31,7 @@ public class MainController {
     public Map<String, Object> test(
             @RequestParam("location") String location,
             @RequestParam("type-rest") String type,
-            @RequestParam("radius") double radius)
+            @RequestParam("radius") String radius)
     {
         Map<String, Object> response = new HashMap<>();
         try

@@ -103,14 +103,14 @@ public class GeoPack {
     }
 
     /* Геодекодирование */
-    public static ArrayList<Point> getPoints(String restPlace,String location,double radius) throws IOException {
+    public static ArrayList<Point> getPoints(String restPlace,String location,String radius) throws IOException {
         Point locationPoint = GeoPack.getPoint(location);
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("key",apiKey);
         //requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
         requestParams.put("type", restPlace);
         requestParams.put("location",locationPoint.getLat()+","+locationPoint.getLng());
-        requestParams.put("radius",String.valueOf(radius));
+        requestParams.put("radius",radius);
         //requestParams.put("librares","places");
 
         String url = nearbySearchUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
