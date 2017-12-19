@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,18 +28,24 @@ public class MainController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public Map<String, Object> test(@RequestParam("pac-input") String place)
+    public Map<String, Object> test(
+            @RequestParam("location") String location,
+            @RequestParam("type-rest") String type,
+            @RequestParam("radius") double radius)
     {
         Map<String, Object> response = new HashMap<>();
         try
         {
-            Point test=GeoPack.getPoint(place);
-            response.put("point",test);
+            //Point test=GeoPack.getPoint(place);
+            //response.put("point",test);
+            ArrayList<Point> points = GeoPack.getPoints(type,location,radius);
+            System.out.println(points);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+
         return response;
     }
 }

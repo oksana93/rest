@@ -41,8 +41,10 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <form name="test" method="POST" class="controls" th:action="@{/test}">
-                    <!--<input id="pac-input" name="pac-input" class="controls" type="text" placeholder="Search Box"/>-->
-                    <!--<button id="pac-button" type="submit" class="controls" name="send">OK</button>-->
+                    <input id="pac-input" name="location" class="controls" type="text" placeholder="Location"/>
+                    <input name="type-rest" class="controls" type="text" placeholder="Type of Rest"/>
+                    <input name="radius" class="controls" type="text" placeholder="Radius"/>
+                    <button id="pac-button" type="submit" class="controls" name="send">OK</button>
                 </form>
             </div>
 

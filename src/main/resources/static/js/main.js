@@ -162,7 +162,7 @@ function initSearchWindow() {
     var input = document.getElementById('pac-input');
     var button = document.getElementById('pac-button');
     var searchBox = new google.maps.places.SearchBox(input);
-    googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(form);
+    //googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(form);
     // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(button);
 
     // Bias the SearchBox results towards current map's viewport.
