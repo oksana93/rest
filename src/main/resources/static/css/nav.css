@@ -1,0 +1,129 @@
+#sideNav,
+#sideNav.showHalfMenu,
+#sideNav.showFullMenu,
+#sideNav ul ul li,
+#sideNav.showFullMenu ul ul li	 {
+    -webkit-transition: 0.2s ease;
+    -moz-transition: 0.2s ease;
+    -ms-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+html.cursor {
+    cursor: pointer;
+}
+
+nav {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    height: 59px;
+    border-bottom:1px solid #ddd;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index:100;
+    background-color:#ffffff;
+}
+
+nav ul,
+#sideNav ul,
+#sideNav ul ul	{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+nav li {
+    margin:0;
+    float:left;
+    border-right:1px solid #ddd;
+    font-size:18px;
+}
+
+nav a,
+#sideNav a {
+    color:#5b6064;
+    text-decoration:none;
+    display:block;
+    padding:10px 30px;
+    height:59px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    line-height:35px;
+}
+
+nav a:hover,
+#sideNav a:hover {
+    color:#ffffff;
+    background-color: #5b6064;
+}
+
+#sideNav {
+    position: fixed;
+    left:-60px;
+    top:59px;
+    width: 60px;
+    height:100%;
+    border-right:1px solid #ddd;
+    background-color:#ffffff;
+    overflow-y: auto;
+}
+
+#sideNav.showHalfMenu {
+    left:0;
+}
+
+#sideNav.showFullMenu {
+    left:0;
+    width: 311px;
+}
+
+#sideNav.showFullMenu ul ul li {
+    height:59px;
+}
+
+
+#sideNav > ul {
+    width: 100%;
+    padding-bottom:60px;
+}
+
+#sideNav ul li {
+    width: 100%;
+    margin:0;
+    font-weight:300;
+}
+
+#sideNav ul li a {
+    border-bottom:1px solid #ddd;
+    padding-left:70px;
+}
+
+#sideNav ul li span {
+    position: relative;
+    top:3px;
+}
+
+#sideNav ul ul li {
+    overflow:hidden;
+    height: 0;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+
+    nav a,
+    #sideNav a {
+        padding:10px 15px;
+    }
+
+    nav a#btn-menu {
+        padding:10px 30px;
+    }
+
+    #sideNav.showFullMenu,
+    #sideNav.showFullMenu li,
+    #sideNav.showFullMenu	a	 {
+        width: 100%;
+    }
+
+}

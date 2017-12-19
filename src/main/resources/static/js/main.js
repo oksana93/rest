@@ -1,7 +1,14 @@
 'use strict';
-var defaultKeyWord = "Кинотеатр";
-var defaultRadius = '2000';
-var iconYourPosition = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+var defaultKeyWord = 'Ресторан';
+var defaultRadius = '10000';
+var iconYourPosition = {
+    url: '/images/start_marker.png',
+    scaledSize: new google.maps.Size(67, 67)
+};
+var iconPlacePosition = {
+    url: '/images/places_marker.png',
+    scaledSize: new google.maps.Size(67, 67)
+}
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
 var zoom = 15;
@@ -46,12 +53,7 @@ function initMap() {
                         map: googleMap,
                         position: startPosition,
                         icon: iconYourPosition,
-                        label: {
-                            color: 'red',
-                            fontWeight: 'bold',
-                            text: 'You',
-                            fontSize: "20px"
-                        }
+                        size: "20px"
                     });
 
                     google.maps.event.addListener(markerStartPosition, 'click', function () {
@@ -60,10 +62,8 @@ function initMap() {
                             '<p>lng: ' + startPosition.lng);
                         infoWindowForPlaces.open(googleMap, this);
                     });
-
                     request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
                     service();
-                    initSearchWindow();
                 }, 500);
             },
             function (error) {
@@ -84,7 +84,7 @@ function initMap() {
 
         mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
         service();
-        initSearchWindow();
+        // initSearchWindow();
     }
 }
 
@@ -147,6 +147,7 @@ function callback(results, status) {
 function createMarker(place) {
     var placeLoc = place.geometry.location;
     markers = new google.maps.Marker({
+        icon: iconPlacePosition,
         map: googleMap,
         position: place.geometry.location
     });
