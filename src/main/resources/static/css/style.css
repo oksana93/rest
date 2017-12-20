@@ -9,19 +9,11 @@
 
 .controls {
     margin-top: 10px;
-    border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    height: 32px;
-    outline: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 body {
-    background: #f9f9f9;
+    background: white;
     text-align:left;
-    color:#666;
     font-size: 15px;
     font-family:georgia, 'time new romans', serif;
     margin:0 auto;
