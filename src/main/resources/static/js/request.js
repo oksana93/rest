@@ -1,4 +1,5 @@
 function test(){
+
     $.ajax({
         type: "POST",
         cache: false,
@@ -9,7 +10,13 @@ function test(){
             'radius': $("#radius").val()
         },
         success: function (response) {
-            $('#pac-button').click();
+
+            //var html = "";
+            $.each(response.data, function (i) {
+                createMarker(response.data[i]);
+                //html = html + response.data[i] + "<br/>";
+            });
+            //$('#container').html(html);
         }
     });
 }

@@ -30,6 +30,10 @@ public class Point implements Serializable {
         return lng;
     }
 
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
     @Override
     public String toString()
     {

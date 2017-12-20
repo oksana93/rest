@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,7 +30,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public Map<String, Object> test(
+    public
+    @ResponseBody  Map<String, Object> test(
             @RequestParam("location") String location,
             @RequestParam("type-rest") String type,
             @RequestParam("radius") String radius)
@@ -36,10 +39,9 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try
         {
-            //Point test=GeoPack.getPoint(place);
-            //response.put("point",test);
-            ArrayList<Point> points = GeoPack.getPoints(type,location,radius);
-            System.out.println(points);
+            response.put("result", "success");
+            response.put("data",GeoPack.toList(GeoPack.getPoints(type,location,radius)));
+            return response;
         }
         catch (IOException e)
         {

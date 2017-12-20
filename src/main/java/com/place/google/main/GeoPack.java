@@ -5,14 +5,13 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
@@ -103,7 +102,8 @@ public class GeoPack {
     }
 
     /* Геодекодирование */
-    public static ArrayList<Point> getPoints(String restPlace,String location,String radius) throws IOException {
+    public static JSONArray getPoints(String restPlace,String location,String radius) throws IOException
+    {
         Point locationPoint = GeoPack.getPoint(location);
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("key",apiKey);
@@ -117,7 +117,7 @@ public class GeoPack {
         //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=500&type=%D1%82%D0%B5%D0%B0%D1%82%D1%80&key=AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U
 
         JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
-        return getListPoints(response);
+        return response.getJSONArray("results");
     }
 
     public static double deg2rad(final double degree) {
@@ -151,12 +151,48 @@ public class GeoPack {
         JSONObject point;
         ArrayList<Point> points = new ArrayList<>();
         double lat,lng;
-        for(Object o: results){
-            if ( o instanceof JSONObject ) {
-                point = ((JSONObject) o).getJSONObject("geometry").getJSONObject("location");
-                points.add(new Point(point.getDouble("lng"),point.getDouble("lat")));
-            }
-        }
+//        for(Object o: results){
+//            if ( o instanceof JSONObject ) {
+//                point = ((JSONObject) o).getJSONObject("geometry").getJSONObject("location");
+//                points.add(new Point(point.getDouble("lng"),point.getDouble("lat")));
+//            }
+//        }
         return points;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+
+    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<>();
+
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
     }
 }
