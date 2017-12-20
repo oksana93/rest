@@ -160,7 +160,7 @@ a.trigger{
     font-family: verdana, helvetica, arial, sans-serif;
     color:#fff;
     padding: 15px 15px 15px 10px;
-    background:#333333 url(plus.png) 85% 55% no-repeat;
+    background:#333333 url(../images/plus.png) 85% 55% no-repeat;
     border:1px solid #444444;
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
@@ -181,7 +181,7 @@ a.trigger:hover{
     color:#fff;
     padding: 15px 15px 15px 10px;
     font-weight: 700;
-    background:#222222 url('plus.png') 85% 55% no-repeat;
+    background:#222222 url('../images/plus.png') 85% 55% no-repeat;
     border:1px solid #444444;
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
@@ -193,7 +193,7 @@ a.trigger:hover{
 }
 
 a.active.trigger {
-    background:#222222 url(minus.png) 85% 55% no-repeat;
+    background:#222222 url(static/images/minus.png) 85% 55% no-repeat;
 }
 
 .columns{
