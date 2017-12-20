@@ -1,4 +1,6 @@
-
+.controls {
+    margin-top: 10px;
+}
 
 a:focus {
     outline: none;
@@ -7,48 +9,38 @@ a:focus {
 h1 {
     font-size: 34px;
     font-family: verdana, helvetica, arial, sans-serif;
-    letter-spacing:-2px;
-    color:#9FC54E;
-    font-weight:700;
-    padding:20px 0 0;
+    letter-spacing: -2px;
+    color: #9FC54E;
+    font-weight: 700;
+    padding: 20px 0 0;
 }
 
 h2 {
     font-size: 24px;
     font-family: verdana, helvetica, arial, sans-serif;
-    color:#444444;
+    color: #444444;
     font-weight: 400;
     padding: 0 0 10px;
 }
 
 h3 {
-    font-size:14px;
-    font-family:verdana, helvetica, arial, sans-serif;
-    letter-spacing:-1px;
-    color:#fff;
+    font-size: 14px;
+    font-family: verdana, helvetica, arial, sans-serif;
+    letter-spacing: -1px;
+    color: #fff;
     font-weight: 700;
-    text-transform:uppercase;
-    margin:0;
-    padding:8px 0 8px 0;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 8px 0 8px 0;
 }
 
-img{
-    float: right;
-    margin: 3px 3px 6px 8px;
-    padding: 5px;
-    background: #222222;
-    border: 1px solid #333333;
-}
+/*-------------------------------------------*/
 
 p {
-    color:#cccccc;
-    line-height:22px;
+    color: black;
+    line-height: 22px;
     padding: 0 0 10px;
     margin: 20px 0 20px 0;
-}
-
-img {
-    border:none;
 }
 
 #container {
@@ -57,7 +49,7 @@ img {
     padding: 0;
 }
 
-#container a{
+#container a {
     float: right;
     background: #9FC54E;
     border: 1px solid #9FC54E;
@@ -67,16 +59,15 @@ img {
     -webkit-border-bottom-left-radius: 20px;
     text-decoration: none;
     font-size: 16px;
-    letter-spacing:-1px;
+    letter-spacing: -1px;
     font-family: verdana, helvetica, arial, sans-serif;
-    color:#fff;
+    color: #fff;
     padding: 20px;
     font-weight: 700;
 }
 
-#container a:hover{
+#container a:hover {
     float: right;
-    background: #a0a0a0;
     border: 1px solid #cccccc;
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
@@ -84,18 +75,17 @@ img {
     -webkit-border-bottom-left-radius: 20px;
     text-decoration: none;
     font-size: 16px;
-    letter-spacing:-1px;
+    letter-spacing: -1px;
     font-family: verdana, helvetica, arial, sans-serif;
-    color:#fff;
+    color: #fff;
     padding: 20px;
     font-weight: 700;
 }
 
-
 .content {
-    font-style:normal;
-    font-family:helvetica, arial, verdana, sans-serif;
-    color:#ffffff;
+    font-style: normal;
+    font-family: helvetica, arial, verdana, sans-serif;
+    color: #ffffff;
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
     -moz-border-radius-bottomleft: 20px;
@@ -120,36 +110,33 @@ img {
     z-index: 1;
 }
 
+/*-------------------------------------------*/
+
 .panel {
     position: absolute;
     top: 15%;
     left: 0;
     display: none;
-    background: rgba(255,255,255,.6);
+    background: rgba(255, 255, 255, .6);
     width: 408px;
     height: 100%;
-    padding: 30px 30px 30px 30px;
     filter: alpha(opacity=85);
-    z-index: 1;
+    z-index: 0;
 }
 
-.panel p{
+.panel p {
     margin: 0 0 15px 0;
     padding: 0;
-    color: black;
     z-index: 3;
 }
 
-.panel a, .panel a:visited{
+.panel a.trigger, .panel a.trigger:visited {
     margin: 0;
     padding: 0;
-    color: #9FC54E;
-    text-decoration: none;
-    border-bottom: 1px solid #9FC54E;
     z-index: 3;
 }
 
-.panel a:hover, .panel a:visited:hover{
+.panel a.trigger:hover, .panel a.trigger:visited:hover {
     margin: 0;
     padding: 0;
     color: #ffffff;
@@ -158,7 +145,7 @@ img {
     z-index: 3;
 }
 
-a.trigger{
+a.trigger {
     position: absolute;
     text-decoration: none;
     top: 15%;
@@ -166,11 +153,11 @@ a.trigger{
     padding: 15px 15px 15px 10px;
     background: url(../images/plus.png) no-repeat;
     display: block;
-    opacity: .7;
+    opacity: .5;
     z-index: 2;
 }
 
-a.trigger:hover{
+a.trigger:hover {
     position: absolute;
     text-decoration: none;
     top: 15%;
@@ -183,38 +170,123 @@ a.active.trigger {
     background: url(../images/minus.png) no-repeat;
 }
 
-.columns{
+/*-------------------------------------------*/
+
+.nav-panel {
+    position: absolute;
+    background: rgba(255, 255, 255, 1);
+    width: 67px;
+    height: 100%;
+    z-index: 2;
+}
+
+/*-------------------------------------------*/
+
+.city-panel, .search-panel, .hotel-panel {
+    position: absolute;
+    display: none;
+    padding: 30px 30px 30px 30px;
+    top: 10%;
+    left: 67px;
+    width: 341px;
+    height: 100%;
+    z-index: 3;
+}
+
+/*-------------------------------------------*/
+
+a.city {
+    position: absolute;
+    text-decoration: none;
+    padding: 30px 30px 30px 30px;
+    display: block;
+    background: url("../images/city_black.png") no-repeat;
+    top: 70px;
+    left: 5px;
+    opacity: .3;
+    z-index: 3;
+}
+
+a.city:hover {
+    position: absolute;
+    text-decoration: none;
+    left: 5px;
+    display: block;
+}
+
+a.search {
+    position: absolute;
+    text-decoration: none;
+    padding: 30px 30px 30px 30px;
+    display: block;
+    background: url("../images/search_black.png") no-repeat;
+    top: 145px;
+    left: 9px;
+    opacity: .3;
+    z-index: 3;
+}
+
+.search-panel a.search:active  a.search:visited {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
+}
+
+a.hotel {
+    position: absolute;
+    text-decoration: none;
+    padding: 30px 30px 30px 30px;
+    display: block;
+    background: url("../images/hotel_black.png") no-repeat;
+    top: 210px;
+    left: 9px;
+    opacity: .3;
+    z-index: 3;
+}
+
+a.hotel:hover {
+    position: absolute;
+    text-decoration: none;
+    left: 9px;
+    display: block;
+}
+
+/*-------------------------------------------*/
+
+.columns {
     clear: both;
     width: 330px;
     padding: 0 0 20px 0;
     line-height: 22px;
 }
 
-.colleft{
+.colleft {
     float: left;
     width: 130px;
     line-height: 22px;
 }
 
-.colright{
+.colright {
     float: right;
     width: 130px;
     line-height: 22px;
 }
 
-ul{
+ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
 }
 
-ul li{
+ul li {
     padding: 0;
     margin: 0;
     list-style-type: none;
 }
 
-hr{
-    background-color: black;
+hr {
     height: 1px;
 }
