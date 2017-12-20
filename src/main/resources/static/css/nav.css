@@ -96,8 +96,6 @@ img {
     font-style:normal;
     font-family:helvetica, arial, verdana, sans-serif;
     color:#ffffff;
-    background:#333333;
-    border:1px solid #444444;
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
     -moz-border-radius-bottomleft: 20px;
@@ -113,26 +111,26 @@ img {
 
 .panel {
     position: absolute;
-    top: 50px;
+    top: 15%;
     left: 0;
     display: none;
-    background: #000000;
-    border:1px solid #111111;
+    background: rgba(0,191,255,.4);
+    border:1px solid rgba(68, 68, 68, .2);
     -moz-border-radius-topright: 20px;
     -webkit-border-top-right-radius: 20px;
     -moz-border-radius-bottomright: 20px;
     -webkit-border-bottom-right-radius: 20px;
-    width: 330px;
-    height: auto;
-    padding: 30px 30px 30px 130px;
+    width: 15%;
+    height: 67%;
+    padding: 30px 30px 30px 30px;
     filter: alpha(opacity=85);
-    opacity: .85;
+    z-index: 1;
 }
 
 .panel p{
     margin: 0 0 15px 0;
     padding: 0;
-    color: #cccccc;
+    color: black;
 }
 
 .panel a, .panel a:visited{
@@ -154,46 +152,26 @@ img {
 a.trigger{
     position: absolute;
     text-decoration: none;
-    top: 80px; left: 0;
-    font-size: 16px;
-    letter-spacing:-1px;
-    font-family: verdana, helvetica, arial, sans-serif;
-    color:#fff;
+    top: 15%;
+    left: 0;
     padding: 15px 15px 15px 10px;
-    background:#333333 url(../images/plus.png) 85% 55% no-repeat;
-    border:1px solid #444444;
-    -moz-border-radius-topright: 20px;
-    -webkit-border-top-right-radius: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -webkit-border-bottom-right-radius: 20px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
+    background: url(../images/plus.png) no-repeat;
     display: block;
+    opacity: .7;
+    z-index: 2;
 }
 
 a.trigger:hover{
     position: absolute;
     text-decoration: none;
-    top: 80px; left: 0;
-    font-size: 16px;
-    letter-spacing:-1px;
-    font-family: verdana, helvetica, arial, sans-serif;
-    color:#fff;
+    top: 15%;
+    left: 0;
     padding: 15px 15px 15px 10px;
-    font-weight: 700;
-    background:#222222 url('../images/plus.png') 85% 55% no-repeat;
-    border:1px solid #444444;
-    -moz-border-radius-topright: 20px;
-    -webkit-border-top-right-radius: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -webkit-border-bottom-right-radius: 20px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
     display: block;
 }
 
 a.active.trigger {
-    background:#222222 url(static/images/minus.png) 85% 55% no-repeat;
+    background: url(../images/minus.png) no-repeat;
 }
 
 .columns{
@@ -228,6 +206,6 @@ ul li{
 }
 
 hr{
-    background-color: #333333;
+    background-color: black;
     height: 1px;
 }
