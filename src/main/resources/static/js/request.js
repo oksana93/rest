@@ -1,9 +1,9 @@
-function test(){
+function placesSearch(){
 
     $.ajax({
         type: "POST",
         cache: false,
-        url: '/test',
+        url: '/placesSearch',
         data: {
             'location': $("#location").val(),
             'type-rest': $("#type-rest").val(),

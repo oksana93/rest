@@ -195,23 +195,25 @@ a.active.trigger {
 
 /*-------------------------------------------*/
 
-a.city {
-    position: absolute;
-    text-decoration: none;
-    padding: 30px 30px 30px 30px;
-    display: block;
-    background: url("../images/city_black.png") no-repeat;
-    top: 70px;
-    left: 5px;
-    opacity: .3;
-    z-index: 3;
+search-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
 }
 
-a.city:hover {
-    position: absolute;
+.search-panel a.search, .search-panel a.search:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.search-panel a.search:hover, .search-panel a.search:visited:hover {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
     text-decoration: none;
-    left: 5px;
-    display: block;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
 }
 
 a.search {
@@ -226,7 +228,72 @@ a.search {
     z-index: 3;
 }
 
-.search-panel a.search:active  a.search:visited {
+a.search:hover {
+    text-decoration: rgba(153,255,255,1);
+}
+
+a.active.search {
+    text-decoration: rgba(153,255,255,1);
+}
+
+/*-------------------------------------------*/
+
+.city-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.city-panel a.city, .city-panel a.city:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.city-panel a.city:hover, .city-panel a.city:visited:hover {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
+}
+
+a.city {
+    position: absolute;
+    text-decoration: none;
+    padding: 30px 30px 30px 30px;
+    display: block;
+    background: url("../images/city_black.png") no-repeat;
+    top: 70px;
+    left: 5px;
+    opacity: .3;
+    z-index: 3;
+}
+
+a.city:hover {
+    text-decoration: rgba(153,255,255,1);
+}
+
+a.active.city {
+    text-decoration: rgba(153,255,255,1);
+}
+
+/*-------------------------------------------*/
+
+.hotel-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.hotel-panel a.hotel, .hotel-panel a.hotel:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.hotel-panel a.hotel:hover, .hotel-panel a.hotel:visited:hover {
     margin: 0;
     padding: 0;
     color: #ffffff;
@@ -248,11 +315,17 @@ a.hotel {
 }
 
 a.hotel:hover {
-    position: absolute;
-    text-decoration: none;
-    left: 9px;
-    display: block;
+    text-decoration: rgba(153,255,255,1);
 }
+
+a.active.hotel {
+    text-decoration: rgba(153,255,255,1);
+}
+
+/*-------------------------------------------*/
+
+.open {display:block;}
+.close {display:none;}
 
 /*-------------------------------------------*/
 

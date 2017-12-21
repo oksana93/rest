@@ -29,7 +29,7 @@ public class MainController {
         return "map";
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @RequestMapping(value = "/placesSearch", method = RequestMethod.POST)
     public
     @ResponseBody  Map<String, Object> test(
             @RequestParam("location") String location,
