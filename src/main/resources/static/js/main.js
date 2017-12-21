@@ -39,10 +39,6 @@ $(document).ready(function () {
         $(".city-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".search-panel").toggle("fast").toggleClass("active");
-        // $("#location").text(
-        //     "<p>Lng: " + startPosition.lng + "</p>" +
-        //     "<p>Ltg: " + startPosition.lat + "</p>");
-        // return false;
     });
 });
 

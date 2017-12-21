@@ -10,12 +10,9 @@ function placesSearch() {
         },
         success: function (response) {
             deleteMarkers();
-            //var html = "";
             $.each(response.data, function (i) {
                 createMarker(response.data[i]);
-                //html = html + response.data[i] + "<br/>";
             });
-            //$('#container').html(html);
         }
     });
 }

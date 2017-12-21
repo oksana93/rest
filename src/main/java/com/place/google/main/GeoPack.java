@@ -86,8 +86,8 @@ public class GeoPack {
     /* Геодекодирование */
     public static JSONObject getJsonPoint(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
         requestParams.put("language", "ru");
+        requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
         requestParams.put("address", address);// адрес, который нужно геокодировать
         requestParams.put("key",apiKey);
 
@@ -101,7 +101,6 @@ public class GeoPack {
         return location;
     }
 
-
     public static Point getPoint(String address) throws IOException {
         JSONObject location = getJsonPoint(address);
         Point point = new Point(location.getDouble("lng"), location.getDouble("lat"));
@@ -113,12 +112,12 @@ public class GeoPack {
     {
         Point locationPoint = GeoPack.getPoint(location);
         Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("key",apiKey);
         //requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
-        requestParams.put("types", restPlace);
+        requestParams.put("keyword", restPlace);
         requestParams.put("language", "ru");
         requestParams.put("location",locationPoint.getLat()+","+locationPoint.getLng());
         requestParams.put("radius",radius);
+        requestParams.put("key",apiKey);
         //requestParams.put("librares","places");
 
         String url = nearbySearchUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
