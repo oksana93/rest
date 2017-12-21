@@ -18,7 +18,7 @@
     </style>
     <meta charset="UTF-8"/>
     <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places">
+            src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,placeid">
     </script>
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
@@ -41,17 +41,13 @@
 
     </div>
     <div class="search-panel">
-
-        <input id="address" name="address" class="form-control form-control-lg controls" type="text"
-               placeholder="Введите адрес" style="text-align: center"/>
-        <button id="address-button" type="submit" class="form-control form-control-lg controls" name="send" onclick="addressSearch()">Поиск</button>
         <!-- Cодержимое панели -->
         <input id="location" name="location" class="form-control form-control-lg controls" type="text"
-               placeholder="Введите адрес"/>
+               placeholder="Введите адрес" style="text-align: center"/>
         <input id="type-rest" name="type-rest" class="form-control form-control-lg controls" type="text"
-               placeholder="Введите интересующий вид отдыха"/>
+               placeholder="Введите вид отдыха" style="text-align: center"/>
         <input id="radius" name="radius" class="form-control form-control-lg controls" type="text"
-               placeholder="Удаленность"/>
+               placeholder="Максимальное расстояние (км)" style="text-align: center"/>
         <button id="button" type="submit" class="form-control form-control-lg controls" name="send" onclick="placesSearch()">Поиск</button>
 
         <div class="additional-panel">

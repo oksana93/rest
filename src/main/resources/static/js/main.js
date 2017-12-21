@@ -3,11 +3,11 @@ var defaultKeyWord = 'Ресторан';
 var defaultRadius = '10000';
 var iconYourPosition = {
     url: '/images/start_marker.png',
-    scaledSize: new google.maps.Size(67, 67)
+    scaledSize: new google.maps.Size(47, 47)
 };
 var iconPlacePosition = {
     url: '/images/places_marker.png',
-    scaledSize: new google.maps.Size(67, 67)
+    scaledSize: new google.maps.Size(47, 47)
 }
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
@@ -92,13 +92,11 @@ function initMap() {
                     });
 
                     google.maps.event.addListener(markerStartPosition, 'click', function () {
-                        infoWindowForPlaces.setContent('<p>Текущее положение</p>' +
-                            '<p>lat: ' + startPosition.lat + '</p>' +
-                            '<p>lng: ' + startPosition.lng);
+                        infoWindowForPlaces.setContent('Текущее положение<br/>' +
+                            'lat: ' + startPosition.lat + '<br/>' +
+                            'lng: ' + startPosition.lng);
                         infoWindowForPlaces.open(googleMap, this);
                     });
-                    // request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
-                    // service();
                 }, 500);
             },
             function (error) {
@@ -117,9 +115,8 @@ function initMap() {
             }
         });
 
-        mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
-        service();
-        // initSearchWindow();
+        // mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
+        // service();
     }
 }
 
@@ -156,12 +153,12 @@ function mapRequest(location, radius, query) {
     };
 }
 
-function service() {
-    // PlacesService - contains methods related to searching for
-    // places and retrieving details about a place.
-    placesService = new google.maps.places.PlacesService(googleMap);
-    placesService.nearbySearch(request, callback);
-}
+// function service() {
+//     // PlacesService - contains methods related to searching for
+//     // places and retrieving details about a place.
+//     placesService = new google.maps.places.PlacesService(googleMap);
+//     placesService.nearbySearch(request, callback);
+// }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
@@ -170,13 +167,13 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation. Default position');
 }
 
-function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-        }
-    }
-}
+// function callback(results, status) {
+//     if (status === google.maps.places.PlacesServiceStatus.OK) {
+//         for (var i = 0; i < results.length; i++) {
+//             createMarker(results[i]);
+//         }
+//     }
+// }
 
 function deleteMarkers() {
     if (markers.length > 0) {
@@ -187,7 +184,6 @@ function deleteMarkers() {
 }
 
 function createMarker(place) {
-    var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         icon: iconPlacePosition,
         map: googleMap,
@@ -197,16 +193,14 @@ function createMarker(place) {
         infoWindowForPlaces.setContent(place.name);
         infoWindowForPlaces.open(googleMap, this);
     });
-    markers[markers.length+1] = marker;
+    markers[markers.length + 1] = marker;
 }
 
 function initSearchWindow() {
-    var address = document.getElementById('address');
     var location = document.getElementById('location');
     var typeRest = document.getElementById('type-rest');
     var radius = document.getElementById('radius');
     var button = document.getElementById('button');
-    var searchBox1 = new google.maps.places.SearchBox(address);
     var searchBox2 = new google.maps.places.SearchBox(location);
 
     // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(location);
