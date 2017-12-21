@@ -22,6 +22,7 @@ public class GeoPack {
     final static String baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
     final static String nearbySearchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";// путь к Geocoding API по
     final static String apiKey = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
+    /* AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
 
     /* Вычисление расстояния и времени между пунктами */
     public static Map<String,String> getDistanceInfo(Point origin, Point destination,String mode) {
@@ -83,9 +84,10 @@ public class GeoPack {
     }
 
     /* Геодекодирование */
-    public static Point getPoint(String address) throws IOException {
+    public static JSONObject getJsonPoint(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
+        requestParams.put("language", "ru");
         requestParams.put("address", address);// адрес, который нужно геокодировать
         requestParams.put("key",apiKey);
 
@@ -96,7 +98,12 @@ public class GeoPack {
         JSONObject location = response.getJSONArray("results").getJSONObject(0);
         location = location.getJSONObject("geometry");
         location = location.getJSONObject("location");
+        return location;
+    }
 
+
+    public static Point getPoint(String address) throws IOException {
+        JSONObject location = getJsonPoint(address);
         Point point = new Point(location.getDouble("lng"), location.getDouble("lat"));
         return point;
     }
@@ -108,7 +115,8 @@ public class GeoPack {
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("key",apiKey);
         //requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
-        requestParams.put("type", restPlace);
+        requestParams.put("types", restPlace);
+        requestParams.put("language", "ru");
         requestParams.put("location",locationPoint.getLat()+","+locationPoint.getLng());
         requestParams.put("radius",radius);
         //requestParams.put("librares","places");

@@ -17,7 +17,6 @@
         }
     </style>
     <meta charset="UTF-8"/>
-    <!-- AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM -->
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places">
     </script>
@@ -34,14 +33,18 @@
 <div class="logo-panel"></div>
 <div class="panel">
     <div class="nav-panel">
-        <a class="city" href="#"/>
-        <a class="search" href="#"/>
-        <a class="hotel" href="#"/>
+        <a class="city" href="#" title="Выберите город"/>
+        <a class="search" href="#" title="Поиск по городу"/>
+        <a class="hotel" href="#" title="Выбор отеля"/>
     </div>
     <div class="city-panel">
 
     </div>
     <div class="search-panel">
+
+        <input id="address" name="address" class="form-control form-control-lg controls" type="text"
+               placeholder="Введите адрес" style="text-align: center"/>
+        <button id="address-button" type="submit" class="form-control form-control-lg controls" name="send" onclick="addressSearch()">Поиск</button>
         <!-- Cодержимое панели -->
         <input id="location" name="location" class="form-control form-control-lg controls" type="text"
                placeholder="Введите адрес"/>
@@ -50,6 +53,9 @@
         <input id="radius" name="radius" class="form-control form-control-lg controls" type="text"
                placeholder="Удаленность"/>
         <button id="button" type="submit" class="form-control form-control-lg controls" name="send" onclick="placesSearch()">Поиск</button>
+
+        <div class="additional-panel">
+        </div>
     </div>
     <div class="hotel-panel">
 
@@ -60,6 +66,6 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/request.js"></script>
-<a class="trigger" href="#"><!--<img src="image/google-maps-logo.png" sizes="200px 200px"/>--></a>
+<a class="trigger" href="#" title="Меню поиска"><!--<img src="image/google-maps-logo.png" sizes="200px 200px"/>--></a>
 </body>
 </html>

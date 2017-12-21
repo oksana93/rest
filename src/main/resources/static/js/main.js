@@ -26,16 +26,16 @@ $(function () {
     initSearchWindow();
 });
 
-$(document).ready(function(){
-    $(".trigger").click(function(){
+$(document).ready(function () {
+    $(".trigger").click(function () {
         $(".panel").toggle("fast").toggleClass("active");
         return false;
     });
 });
 
 
-$(document).ready(function(){
-    $(".search").click(function(){
+$(document).ready(function () {
+    $(".search").click(function () {
         $(".city-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".search-panel").toggle("fast").toggleClass("active");
@@ -46,8 +46,8 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(){
-    $(".city").click(function(){
+$(document).ready(function () {
+    $(".city").click(function () {
         $(".search-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".city-panel").toggle("fast").toggleClass("active");
@@ -55,8 +55,8 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(){
-    $(".hotel").click(function(){
+$(document).ready(function () {
+    $(".hotel").click(function () {
         $(".city-panel").toggle(false);
         $(".search-panel").toggle(false);
         $(".hotel-panel").toggle("fast").toggleClass("active");
@@ -101,8 +101,8 @@ function initMap() {
                             '<p>lng: ' + startPosition.lng);
                         infoWindowForPlaces.open(googleMap, this);
                     });
-                    request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
-                    service();
+                    // request = mapRequest(startPosition, defaultRadius, defaultKeyWord);
+                    // service();
                 }, 500);
             },
             function (error) {
@@ -160,7 +160,6 @@ function mapRequest(location, radius, query) {
     };
 }
 
-
 function service() {
     // PlacesService - contains methods related to searching for
     // places and retrieving details about a place.
@@ -183,26 +182,36 @@ function callback(results, status) {
     }
 }
 
+function deleteMarkers() {
+    if (markers.length > 0) {
+        markers.forEach(function callback(marker, markers) {
+            marker.setMap(null);
+        });
+    }
+}
+
 function createMarker(place) {
     var placeLoc = place.geometry.location;
-    markers = new google.maps.Marker({
+    var marker = new google.maps.Marker({
         icon: iconPlacePosition,
         map: googleMap,
         position: place.geometry.location
     });
-
-    google.maps.event.addListener(markers, 'click', function () {
+    google.maps.event.addListener(marker, 'click', function () {
         infoWindowForPlaces.setContent(place.name);
         infoWindowForPlaces.open(googleMap, this);
     });
+    markers[markers.length+1] = marker;
 }
 
 function initSearchWindow() {
+    var address = document.getElementById('address');
     var location = document.getElementById('location');
     var typeRest = document.getElementById('type-rest');
     var radius = document.getElementById('radius');
     var button = document.getElementById('button');
-    var searchBox = new google.maps.places.SearchBox(location);
+    var searchBox1 = new google.maps.places.SearchBox(address);
+    var searchBox2 = new google.maps.places.SearchBox(location);
 
     // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(location);
     // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(typeRest);

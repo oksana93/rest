@@ -2,6 +2,7 @@ package com.place.view;
 
 import com.place.google.main.GeoPack;
 import com.place.google.main.Point;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class MainController {
 
     @RequestMapping(value = "/placesSearch", method = RequestMethod.POST)
     public
-    @ResponseBody  Map<String, Object> test(
+    @ResponseBody  Map<String, Object> placesSearch(
             @RequestParam("location") String location,
             @RequestParam("type-rest") String type,
             @RequestParam("radius") String radius)
@@ -41,6 +42,31 @@ public class MainController {
         {
             response.put("result", "success");
             response.put("data",GeoPack.toList(GeoPack.getPoints(type,location,radius)));
+            return response;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/addressSearch", method = RequestMethod.POST)
+    public
+    @ResponseBody  Map<String, Object> addressSearch(@RequestParam("address") String address)
+    {
+        Map<String, Object> response = new HashMap<>();
+        try
+        {
+            JSONObject jsonPoint = GeoPack.getJsonPoint(address);
+            JSONObject resultJson = new JSONObject();
+            resultJson.put("lng", jsonPoint.getDouble("lng"));
+            resultJson.put("lat", jsonPoint.getDouble("lat"));
+
+
+            response.put("result", "success");
+            response.put("data",resultJson);
             return response;
         }
         catch (IOException e)
