@@ -81,7 +81,7 @@ public class GeoPack {
     }
 
     /* Геодекодирование */
-    public static JSONArray getResponseByAddress(String address) throws IOException {
+    public static JSONArray getPointByAddress(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("language", "ru");
         requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
@@ -93,7 +93,7 @@ public class GeoPack {
     }
 
     public static JSONObject getJsonPoint(String address) throws IOException {
-        JSONArray response = getResponseByAddress(address);
+        JSONArray response = getPointByAddress(address);
         JSONObject location = response.getJSONObject(0);
         location = location.getJSONObject("geometry");
         location = location.getJSONObject("location");
@@ -124,6 +124,18 @@ public class GeoPack {
         requestParams.put("keyword", restPlace);
         requestParams.put("language", "ru");
         requestParams.put("location", locationPoint.getLat() + "," + locationPoint.getLng());
+        requestParams.put("radius", radius);
+        requestParams.put("key", apiKey);
+        return getPoints(requestParams);
+    }
+
+    /* Геодекодирование - запрос по центру, радиусу и типу отдыха */
+    public static JSONArray getPointsByCurrentMarker(String restPlace, Map<String,String> locationPoint, String radius) throws IOException {
+        Map<String, String> requestParams = Maps.newHashMap();
+        //requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
+        requestParams.put("keyword", restPlace);
+        requestParams.put("language", "ru");
+        requestParams.put("location", locationPoint.get("lat") + "," + locationPoint.get("lng"));
         requestParams.put("radius", radius);
         requestParams.put("key", apiKey);
         return getPoints(requestParams);

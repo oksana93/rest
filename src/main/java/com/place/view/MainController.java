@@ -1,7 +1,6 @@
 package com.place.view;
 
 import com.place.google.main.GeoPack;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+
 public class MainController {
+
+    private String convertToMeters(String radiusKm) {
+        Integer radius = Integer.valueOf(radiusKm)*1000;
+        return radius.toString();
+    }
 
     @RequestMapping("/")
     public String user(Model model) {
@@ -26,6 +31,20 @@ public class MainController {
         return "map";
     }
 
+    @RequestMapping(value = "/placeSearchByLocation", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> placeSearchByLocation(@RequestParam("location") String location) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            response.put("result", "success");
+            response.put("data",GeoPack.toList(GeoPack.getPointByAddress(location)));
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
     @RequestMapping(value = "/placesSearch", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> placesSearch(
@@ -35,7 +54,7 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.toList(GeoPack.getPoints(type, location, radius)));
+            response.put("data", GeoPack.toList(GeoPack.getPoints(type, location, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,13 +62,16 @@ public class MainController {
         return response;
     }
 
-    @RequestMapping(value = "/addressSearch", method = RequestMethod.POST)
+    @RequestMapping(value = "/placesSearchByCurrentMarker", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String, Object> addressSearch(@RequestParam("address") String address) {
+    Map<String, Object> placesSearchByCurrentMarker(
+            @RequestParam("location") Map<String, String> locationPoint,
+            @RequestParam("type-rest") String type,
+            @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.getResponseByAddress(address).getJSONObject(0));
+            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, locationPoint, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();

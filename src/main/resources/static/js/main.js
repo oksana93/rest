@@ -1,6 +1,4 @@
 'use strict';
-var defaultKeyWord = 'Ресторан';
-var defaultRadius = '10000';
 var iconYourPosition = {
     url: '/images/start_marker.png',
     scaledSize: new google.maps.Size(47, 47)
@@ -8,19 +6,24 @@ var iconYourPosition = {
 var iconPlacePosition = {
     url: '/images/places_marker.png',
     scaledSize: new google.maps.Size(47, 47)
-}
+};
+var iconLocation = {
+    url: '/images/location_small.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+
 var infoWindowForPlaces = new google.maps.InfoWindow();
 var defaultPosition = {lat: 53.212702, lng: 50.178725};
 var zoom = 15;
 
-var request; // map's params (markers, radius...)
 var options; // geolocation's params
-var placesService; // set markers
 var googleMap;
-var startPosition; // geolocation (position)
 var markerStartPosition; // geolocation (marker)
+var markerLocation; // geolocation (marker)
 var markers = []; // other markers
 
+var startPosition; // geolocation (position)
+var startLocation; // geolocation (position)
 $(function () {
     initMap();
     initSearchWindow();
@@ -114,7 +117,6 @@ function initMap() {
                 style: google.maps.NavigationControlStyle.SMALL
             }
         });
-
         // mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
         // service();
     }
@@ -130,7 +132,7 @@ function newGoogleMapByStartPosition(position) {
     });
 }
 
-function setStartPosition(position) {
+function setStartPositionMarker(position) {
     markerStartPosition = new google.maps.Marker({
         map: googleMap,
         position: position,
@@ -144,13 +146,18 @@ function setStartPosition(position) {
     });
 }
 
-// request for search
-function mapRequest(location, radius, query) {
-    request = {
-        location: location,
-        radius: radius,
-        name: [query]
-    };
+function setLocationMarker(place, location) {
+    markerLocation = new google.maps.Marker({
+        map: googleMap,
+        position: place.geometry.location,
+        icon: iconLocation,
+        label: {
+            color: 'red',
+            fontWeight: 'bold',
+            text: location,
+            fontSize: "20px"
+        }
+    });
 }
 
 // function service() {
@@ -202,61 +209,4 @@ function initSearchWindow() {
     var radius = document.getElementById('radius');
     var button = document.getElementById('button');
     var searchBox2 = new google.maps.places.SearchBox(location);
-
-    // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(location);
-    // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(typeRest);
-    // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(radius);
-    // googleMap.controls[google.maps.ControlPosition.TOP_LEFT].push(button);
-
-
-    // Bias the SearchBox results towards current map's viewport.
-    // googleMap.addListener('bounds_changed', function () {
-    //     searchBox.setBounds(googleMap.getBounds());
-    // });
-    //
-    // searchBox.addListener('places_changed', function () {
-    //     var places = searchBox.get("location");
-    //
-    //     if (places.length == 0) {
-    //         return;
-    //     }
-    //
-    //     // Clear out the old markers.
-    //     markers.forEach(function (marker) {
-    //         marker.setMap(null);
-    //     });
-    //     markers = [];
-    //
-    //     // For each place, get the icon, name and location.
-    //     // var bounds = new google.maps.LatLngBounds();
-    //     places.forEach(function (place) {
-    //         if (!place.geometry) {
-    //             console.log("Returned place contains no geometry");
-    //             return;
-    //         }
-    //         var icon = {
-    //             url: place.icon,
-    //             size: new google.maps.Size(71, 71),
-    //             origin: new google.maps.Point(0, 0),
-    //             anchor: new google.maps.Point(17, 34),
-    //             scaledSize: new google.maps.Size(25, 25)
-    //         };
-    //
-    //         // Create a marker for each place.
-    //         markers.push(new google.maps.Marker({
-    //             map: map,
-    //             icon: icon,
-    //             title: place.name,
-    //             position: place.geometry.location
-    //         }));
-    //
-    //         if (place.geometry.viewport) {
-    //             // Only geocodes have viewport.
-    //             bounds.union(place.geometry.viewport);
-    //         } else {
-    //             bounds.extend(place.geometry.location);
-    //         }
-    //     });
-    //     map.fitBounds(bounds);
-    // });
 }

@@ -4,36 +4,58 @@ function placesSearch() {
     var radius = $("#radius").val();
 
     if (rest === "") {
-        if (location !== "") {
+        if (location !== "") { // найти определенный адрес
             $.ajax({
                 type: "POST",
                 cache: false,
-                url: '/addressSearch',
+                url: '/placeSearchByLocation',
                 data: {
-                    'address': location
+                    'location': location
                 },
                 success: function (response) {
                     deleteMarkers();
-                    createMarker(response.data);
+                    $.each(response.data, function (i) {
+                        setLocationMarker(response.data[i], location);
+                    });
                 }
             });
         }
-    } else if (location !== "") {
-        $.ajax({
-            type: "POST",
-            cache: false,
-            url: '/placesSearch',
-            data: {
-                'location': location, /*(location !== ""? location: ),*/
-                'type-rest': rest,
-                'radius': (radius !== "" ? radius : 10000)
-            },
-            success: function (response) {
-                deleteMarkers();
-                $.each(response.data, function (i) {
-                    createMarker(response.data[i]);
-                });
-            }
-        });
+    } else {
+        if (location !== "") { // найти места по типу отдыха (от выбранного положения)
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: '/placesSearch',
+                data: {
+                    'location': location,
+                    'type-rest': rest,
+                    'radius': (radius !== "" ? radius : 10)
+                },
+                success: function (response) {
+                    deleteMarkers();
+                    $.each(response.data, function (i) {
+                        createMarker(response.data[i]);
+                    });
+                }
+            });
+        }
+        else { // найти места по типу отдыха (от текущего положения)
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: '/placesSearchByCurrentMarker',
+                data: {
+                    'locationPoint': startPosition,
+                    'type-rest': rest,
+                    'radius': (radius !== "" ? radius : 10)
+                },
+                success: function (response) {
+                    deleteMarkers();
+                    $.each(response.data, function (i) {
+                        createMarker(response.data[i]);
+                    });
+                }
+            });
+        }
     }
 }
