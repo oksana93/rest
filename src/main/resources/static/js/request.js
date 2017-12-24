@@ -87,3 +87,24 @@ function citySearch() {
         });
     }
 }
+
+function lucky() {
+    deletePlaces();
+    deleteMarkers();
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/lucky',
+        data: {
+            'lat': startPosition.lat,
+            'lng': startPosition.lng,
+        },
+        success: function (response) {
+            result = response.data;
+            setWindowPlaces(result);
+            $.each(result, function (i) {
+                setPlacesMarkers(result[i]);
+            });
+        }
+    });
+}

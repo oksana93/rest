@@ -203,9 +203,6 @@ a.active.trigger {
 }
 
 /*-------------------------------------------*/
-.search-panel {
-    top: 10%;
-}
 
 .search-panel p {
     margin: 0 0 15px 0;
@@ -521,4 +518,25 @@ hr {
     text-decoration: none;
     border-bottom: 1px solid #ffffff;
     z-index: 4;
+}
+
+/* ------------------------------------- */
+
+a.luck {
+    position: absolute;
+    text-decoration: none;
+    padding: 50px 50px 50px 50px !important;
+    background: url(../images/google-maps-logo.png) no-repeat;
+    top: 5%;
+    left: 38%;
+    opacity: .8;
+    z-index: 4;
+}
+
+a.luck:hover {
+    text-decoration: rgba(153, 255, 255, 1);
+}
+
+a.active.luck {
+    text-decoration: rgba(153, 255, 255, 1);
 }
