@@ -198,14 +198,13 @@ function setStartPositionMarker(place) {
 
 /* new location */
 function setLocationMarker(place) {
-    markerLocation.setMap(null);
     markerLocation = new google.maps.Marker({
         map: googleMap,
         position: place.geometry.location,
         icon: iconLocation
     });
     google.maps.event.addListener(markerLocation, 'click', function () {
-        infoWindowForPlaces.setContent(place.name);
+        infoWindowForPlaces.setContent(place.formatted_address);
         infoWindowForPlaces.open(googleMap, this);
     });
 }

@@ -37,7 +37,8 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data",GeoPack.toList(GeoPack.getPointByLocation(location)));
+            response.put("data",GeoPack.toList(
+                    GeoPack.getPointByLocation(location)));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
