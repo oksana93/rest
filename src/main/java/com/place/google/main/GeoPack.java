@@ -133,7 +133,7 @@ public class GeoPack {
     public static JSONArray getPointByLocation(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
         requestParams.put("key", apiKey);
-        requestParams.put("address ", address);
+        requestParams.put("address", address);
         requestParams.put("language", "ru");
         return getResponseGeocodingSearchUrl(requestParams);
     }

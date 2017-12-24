@@ -54,7 +54,8 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.toList(GeoPack.getPoints(type, location, convertToMeters(radius))));
+            response.put("data", GeoPack.toList(
+                    GeoPack.getPoints(type, location, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
