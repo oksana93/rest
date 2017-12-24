@@ -187,7 +187,12 @@ a.active.trigger {
 
 /*-------------------------------------------*/
 
-.city-panel, .search-panel, .places-panel, .hotel-panel {
+.opennow {
+    position: absolute;
+    display: none;
+}
+
+.city-panel, .search-panel, .places-panel, .place-panel, .hotel-panel {
     position: absolute;
     display: none;
     padding: 30px 30px 30px 30px;
@@ -352,6 +357,46 @@ a.active.hotel {
     z-index: 4;
 }
 
+/*-------------------------------------------*/
+
+.place-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.place-panel a.place, .place-panel a.place:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.place-panel a.place:hover, .place-panel a.place:visited:hover {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
+}
+
+a.place {
+    position: relative;
+    text-decoration: none;
+    padding: 30px 30px 30px 30px !important;
+    background: url("../images/back.png") no-repeat;
+    left: 5px;
+    opacity: .3;
+    z-index: 4;
+}
+
+a.place:hover {
+    text-decoration: rgba(153, 255, 255, 1);
+}
+
+a.active.place {
+    text-decoration: rgba(153, 255, 255, 1);
+}
 /*-------------------------------------------*/
 
 .open {

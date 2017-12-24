@@ -1,9 +1,12 @@
 function placesSearch() {
-    var result;
+    var result = [];
     var rest = $("#type-rest").val();
     var location = $("#location").val();
     var radius = $("#radius").val();
 
+    deletePlaces();
+    deleteMarkers();
+    var opennow = document.getElementById("opennow");
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {
             $.ajax({
@@ -16,12 +19,11 @@ function placesSearch() {
                     'radius': (radius !== "" ? radius : 10)
                 },
                 success: function (response) {
-                    deleteMarkers();
                     result = response.data;
+                    setWindowPlaces(result);
                     $.each(result, function (i) {
                         setPlacesMarkers(result[i]);
                     });
-                    setWindowPlaces(result);
                 }
             });
         }
@@ -33,12 +35,11 @@ function placesSearch() {
                 'location': location
             },
             success: function (response) {
-                deleteMarkers();
                 result = response.data;
+                setWindowPlaces(result);
                 $.each(result, function (i) {
                     setLocationMarker(result[i], location);
                 });
-                setWindowPlaces(result);
             }
         });
     }
@@ -54,12 +55,11 @@ function placesSearch() {
                 'radius': (radius !== "" ? radius : 10)
             },
             success: function (response) {
-                deleteMarkers();
                 result = response.data;
+                setWindowPlaces(result);
                 $.each(result, function (i) {
                     setPlacesMarkers(result[i]);
                 });
-                setWindowPlaces(result);
             }
         });
     }

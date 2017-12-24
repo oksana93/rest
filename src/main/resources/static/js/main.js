@@ -27,6 +27,8 @@ var markerStartPosition; // geolocation (marker)
 var markerLocation; // location
 var markers = []; // other markers
 
+var places = []
+
 $(function () {
     initMap();
     initSearchWindow();
@@ -41,6 +43,7 @@ $(document).ready(function () {
         $(".city-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".places-panel").toggle(false);
+        $(".place-panel").toggle(false);
         $(".search-panel").toggle("fast").toggleClass("active");
         return false;
     });
@@ -48,6 +51,7 @@ $(document).ready(function () {
         $(".search-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".places-panel").toggle(false);
+        $(".place-panel").toggle(false);
         $(".city-panel").toggle("fast").toggleClass("active");
         return false;
     });
@@ -55,55 +59,26 @@ $(document).ready(function () {
         $(".city-panel").toggle(false);
         $(".search-panel").toggle(false);
         $(".places-panel").toggle(false);
+        $(".place-panel").toggle(false);
         $(".hotel-panel").toggle("fast").toggleClass("active");
+        return false;
+    });
+    $(".place").click(function () {
+        $(".city-panel").toggle(false);
+        $(".search-panel").toggle(false);
+        $(".hotel-panel").toggle(false);
+        $(".place-panel").toggle(false);
+        $(".places-panel").toggle("fast").toggleClass("active");
         return false;
     });
 });
 
-var placeHrefElements = [];
-
-function setWindowPlaces(result) {
-    var placesPanel = document.getElementById("places-panel");
-    placesPanel.innerHTML = '';
-    placeHrefElements = [];
-
-    $(".city-panel").toggle(false);
-    $(".hotel-panel").toggle(false);
-    $(".search-panel").toggle(false);
-    $(".places-panel").toggle("fast").toggleClass("active");
-
-    var ol = document.createElement("ol");
-    $.each(result, function (i) {
-        var h3 = document.createElement("h3");
-        h3.innerHTML = (result[i].name === undefined ? 'Address' : result[i].name);
-        h3.setAttribute("style","color: rgba(0,0,0,0.6)");
-        var a = document.createElement("a");
-        a.class = 'place';
-        a.setAttribute("style","color: rgba(64, 167, 179, 1)");
-        a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
-        a.href = '#';
-        a.title = 'Получить полную информацию';
-        var p = document.createElement("p");
-        var li = document.createElement("li");
-
-        var div_section_result = document.createElement("div");
-        div_section_result.setAttribute("class", "section-result");
-
-        p.appendChild(h3);
-        p.appendChild(a);
-        li.appendChild(p);
-        ol.appendChild(li);
-
-        a.click(function () {
-            $.each(markers, function (i) {
-                if (markers[i].name === $(".text"))
-                    markers[i].setAnimation(google.maps.Animation.BOUNCE);
-                else
-                    markers[i].setAnimation(null);
-            });
-        });
-    });
-    placesPanel.appendChild(ol);
+function initSearchWindow() {
+    var location = document.getElementById('location');
+    var rest = document.getElementById('rest');
+    var radius = document.getElementById('radius');
+    var button = document.getElementById('button');
+    var searchBox2 = new google.maps.places.SearchBox(location);
 }
 
 function initMap() {
@@ -170,6 +145,63 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation. Default position');
 }
 
+
+var placeHrefElements = [];
+
+function deletePlaces() {
+    var placesPanel = document.getElementById("places-panel");
+    placesPanel.innerHTML = '';
+    placeHrefElements = [];
+    places = [];
+}
+
+function setDetailsForPlaces() {
+
+}
+
+function windowDetailsForPlaces() {
+    $(".city-panel").toggle(false);
+    $(".hotel-panel").toggle(false);
+    $(".search-panel").toggle(false);
+    $(".places-panel").toggle(false);
+    $(".place-panel").toggle("fast").toggleClass("active");
+}
+
+function setWindowPlaces(result) {
+    var placesPanel = document.getElementById("places-panel");
+
+    $(".city-panel").toggle(false);
+    $(".hotel-panel").toggle(false);
+    $(".search-panel").toggle(false);
+    $(".place-panel").toggle(false);
+    $(".places-panel").toggle("fast").toggleClass("active");
+
+    var ol = document.createElement("ol");
+    $.each(result, function (i) {
+        var h3 = document.createElement("h3");
+        h3.innerHTML = (result[i].name === undefined ? 'Address' : result[i].name);
+        h3.setAttribute("style","color: rgba(0,0,0,0.6)");
+        var a = document.createElement("a");
+        a.class = 'place';
+        a.setAttribute("style","color: rgba(64, 167, 179, 1)");
+        a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
+        a.href = '#';
+        a.title = 'Получить полную информацию';
+        a.onclick = function () {
+            windowDetailsForPlaces();
+        };
+
+        var p = document.createElement("p");
+        var li = document.createElement("li");
+
+        p.appendChild(h3);
+        p.appendChild(a);
+        li.appendChild(p);
+        ol.appendChild(li);
+    });
+    placesPanel.appendChild(ol);
+}
+
 /* new city */
 function newGoogleMapByStartPosition(position) {
     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
@@ -189,24 +221,10 @@ function setStartPositionMarker(place) {
         position: place.geometry.location,
         icon: iconYourPosition
     });
+    places[places.length+1] = place;
     google.maps.event.addListener(markerStartPosition, 'click', function () {
         infoWindowForPlaces.setContent(place.name);
         infoWindowForPlaces.open(googleMap, this);
-    });
-
-}
-
-/* new location */
-function setLocationMarker(place) {
-    markerLocation = new google.maps.Marker({
-        map: googleMap,
-        position: place.geometry.location,
-        icon: iconLocation
-    });
-    google.maps.event.addListener(markerLocation, 'click', function () {
-        infoWindowForPlaces.setContent(place.formatted_address);
-        infoWindowForPlaces.open(googleMap, this);
-        infoWindowForPlaces.maxWidth (150);
     });
 }
 
@@ -219,12 +237,28 @@ function deleteMarkers() {
     markers = [];
 }
 
+/* new location */
+function setLocationMarker(place) {
+    markerLocation = new google.maps.Marker({
+        map: googleMap,
+        position: place.geometry.location,
+        icon: iconLocation
+    });
+    places[places.length+1] = place;
+    google.maps.event.addListener(markerLocation, 'click', function () {
+        infoWindowForPlaces.setContent(place.formatted_address);
+        infoWindowForPlaces.open(googleMap, this);
+        infoWindowForPlaces.gm_bindings_.maxWidth = 150;
+    });
+}
+
 function setPlacesMarkers(place) {
     var marker = new google.maps.Marker({
         icon: iconPlacePosition,
         map: googleMap,
         position: place.geometry.location
     });
+    places[places.length+1] = place;
     google.maps.event.addListener(marker, 'click', function () {
         infoWindowForPlaces.setContent(place.name);
         infoWindowForPlaces.open(googleMap, this);
@@ -232,10 +266,11 @@ function setPlacesMarkers(place) {
     markers[markers.length + 1] = marker;
 }
 
-function initSearchWindow() {
-    var location = document.getElementById('location');
-    var rest = document.getElementById('rest');
-    var radius = document.getElementById('radius');
-    var button = document.getElementById('button');
-    var searchBox2 = new google.maps.places.SearchBox(location);
+function setFilterToPlaces(){
+    $.each(places, function (i) {
+        if (places[i].opennow === "true")
+            places[i].setAnimation(google.maps.Animation.BOUNCE);
+        else
+            markers[i].setAnimation(null);
+    });
 }
