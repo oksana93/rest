@@ -64,3 +64,26 @@ function placesSearch() {
         });
     }
 }
+
+function citySearch() {
+    var city = $("#city").val();
+    if (city !== "") {
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: '/placeSearchByLocation',
+            data: {
+                'location': city
+            },
+            success: function (response) {
+                result = response.data;
+                setWindowPlaces(result);
+                $.each(result, function (i) {
+                    var position = result[i].geometry.location;
+                    newGoogleMapByStartPosition(position)
+                    setStartPositionMarker(position.lat, position.lng);
+                });
+            }
+        });
+    }
+}

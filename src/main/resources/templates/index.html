@@ -38,7 +38,9 @@
         <a class="hotel" href="#" title="Выбор отеля"/>
     </div>
     <div class="city-panel">
-
+        <input id="city" name="city" class="form-control form-control-lg controls" type="text"
+               placeholder="Выберите город" style="text-align: center"/>
+        <button id="button-city" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="citySearch()">Поиск</button>
     </div>
     <div class="search-panel">
         <input type="checkbox" class="opennow" id = "opennow" name="opennow" onclick="setFilterToPlaces()">Открыто</input>
