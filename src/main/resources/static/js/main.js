@@ -75,12 +75,12 @@ function setWindowPlaces(result) {
     var ol = document.createElement("ol");
     $.each(result, function (i) {
         var h3 = document.createElement("h3");
-        h3.innerHTML = result[i].name;
+        h3.innerHTML = (result[i].name === undefined ? 'Address' : result[i].name);
         h3.setAttribute("style","color: rgba(0,0,0,0.6)");
         var a = document.createElement("a");
         a.class = 'place';
         a.setAttribute("style","color: rgba(64, 167, 179, 1)");
-        a.text = result[i].vicinity;
+        a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
         a.href = '#';
         a.title = 'Получить полную информацию';
         var p = document.createElement("p");
@@ -206,6 +206,7 @@ function setLocationMarker(place) {
     google.maps.event.addListener(markerLocation, 'click', function () {
         infoWindowForPlaces.setContent(place.formatted_address);
         infoWindowForPlaces.open(googleMap, this);
+        infoWindowForPlaces.maxWidth (150);
     });
 }
 
