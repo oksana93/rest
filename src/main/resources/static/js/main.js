@@ -105,6 +105,10 @@ function initMap() {
                         }
                     });
 
+                    googleMap.addListener('click', function(e) {
+                        setStartPositionMarker(e.latLng);
+                    });
+
                     markerStartPosition = new google.maps.Marker({
                         map: googleMap,
                         position: startPosition,
@@ -214,11 +218,11 @@ function newGoogleMapByStartPosition(position) {
 }
 
 /* new StartPositionMarker */
-function setStartPositionMarker(place) {
+function setStartPositionMarker(latLng) {
     markerStartPosition.setMap(null);
     markerStartPosition = new google.maps.Marker({
         map: googleMap,
-        position: place.geometry.location,
+        position: latLng,
         icon: iconYourPosition
     });
     places[places.length+1] = place;
