@@ -34,7 +34,7 @@ function placesSearch() {
                 success: function (response) {
                     deleteMarkers();
                     $.each(response.data, function (i) {
-                        createMarker(response.data[i]);
+                        setPlacesMarkers(response.data[i]);
                     });
                 }
             });
@@ -45,14 +45,15 @@ function placesSearch() {
                 cache: false,
                 url: '/placesSearchByCurrentMarker',
                 data: {
-                    'locationPoint': startPosition,
+                    'lat': startPosition.lat,
+                    'lng': startPosition.lng,
                     'type-rest': rest,
                     'radius': (radius !== "" ? radius : 10)
                 },
                 success: function (response) {
                     deleteMarkers();
                     $.each(response.data, function (i) {
-                        createMarker(response.data[i]);
+                        setPlacesMarkers(response.data[i]);
                     });
                 }
             });

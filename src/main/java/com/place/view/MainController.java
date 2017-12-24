@@ -17,7 +17,7 @@ import java.util.Map;
 public class MainController {
 
     private String convertToMeters(String radiusKm) {
-        Integer radius = Integer.valueOf(radiusKm)*1000;
+        Float radius = Float.valueOf(radiusKm)*1000;
         return radius.toString();
     }
 
@@ -37,7 +37,7 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data",GeoPack.toList(GeoPack.getPointByAddress(location)));
+            response.put("data",GeoPack.toList(GeoPack.getPointByLocation(location)));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,13 +65,14 @@ public class MainController {
     @RequestMapping(value = "/placesSearchByCurrentMarker", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> placesSearchByCurrentMarker(
-            @RequestParam("location") Map<String, String> locationPoint,
+            @RequestParam("lat") String lat,
+            @RequestParam("lng") String lng,
             @RequestParam("type-rest") String type,
             @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, locationPoint, convertToMeters(radius))));
+            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, lat, lng, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();

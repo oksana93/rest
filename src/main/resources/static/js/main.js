@@ -12,18 +12,21 @@ var iconLocation = {
     scaledSize: new google.maps.Size(47, 47)
 };
 
-var infoWindowForPlaces = new google.maps.InfoWindow();
-var defaultPosition = {lat: 53.212702, lng: 50.178725};
 var zoom = 15;
 
 var options; // geolocation's params
 var googleMap;
+
+var defaultPosition = {lat: 53.212702, lng: 50.178725};
+var startPosition; // geolocation (position)
+
+var infoWindowForStartPosition = new google.maps.InfoWindow();
+var infoWindowForPlaces = new google.maps.InfoWindow();
+
 var markerStartPosition; // geolocation (marker)
-var markerLocation; // geolocation (marker)
+var markerLocation; // location
 var markers = []; // other markers
 
-var startPosition; // geolocation (position)
-var startLocation; // geolocation (position)
 $(function () {
     initMap();
     initSearchWindow();
@@ -35,7 +38,6 @@ $(document).ready(function () {
         return false;
     });
 });
-
 
 $(document).ready(function () {
     $(".search").click(function () {
@@ -117,11 +119,17 @@ function initMap() {
                 style: google.maps.NavigationControlStyle.SMALL
             }
         });
-        // mapRequest(defaultPosition, defaultRadius, defaultKeyWord);
-        // service();
     }
 }
 
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed. Default position' :
+        'Error: Your browser doesn\'t support geolocation. Default position');
+}
+
+/* new city */
 function newGoogleMapByStartPosition(position) {
     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
         center: position,
@@ -132,55 +140,34 @@ function newGoogleMapByStartPosition(position) {
     });
 }
 
-function setStartPositionMarker(position) {
+/* new StartPositionMarker */
+function setStartPositionMarker(place) {
+    markerStartPosition.setMap(null);
     markerStartPosition = new google.maps.Marker({
         map: googleMap,
-        position: position,
-        icon: iconYourPosition,
-        label: {
-            color: 'red',
-            fontWeight: 'bold',
-            text: 'Текущее положение\nlat: ' + position.lat + '\nlng: ' + position.lng,
-            fontSize: "20px"
-        }
+        position: place.geometry.location,
+        icon: iconYourPosition
     });
+    google.maps.event.addListener(markerStartPosition, 'click', function () {
+        infoWindowForPlaces.setContent(place.name);
+        infoWindowForPlaces.open(googleMap, this);
+    });
+
 }
 
-function setLocationMarker(place, location) {
+/* new location */
+function setLocationMarker(place) {
+    markerLocation.setMap(null);
     markerLocation = new google.maps.Marker({
         map: googleMap,
         position: place.geometry.location,
-        icon: iconLocation,
-        label: {
-            color: 'red',
-            fontWeight: 'bold',
-            text: location,
-            fontSize: "20px"
-        }
+        icon: iconLocation
+    });
+    google.maps.event.addListener(markerLocation, 'click', function () {
+        infoWindowForPlaces.setContent(place.name);
+        infoWindowForPlaces.open(googleMap, this);
     });
 }
-
-// function service() {
-//     // PlacesService - contains methods related to searching for
-//     // places and retrieving details about a place.
-//     placesService = new google.maps.places.PlacesService(googleMap);
-//     placesService.nearbySearch(request, callback);
-// }
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed. Default position' :
-        'Error: Your browser doesn\'t support geolocation. Default position');
-}
-
-// function callback(results, status) {
-//     if (status === google.maps.places.PlacesServiceStatus.OK) {
-//         for (var i = 0; i < results.length; i++) {
-//             createMarker(results[i]);
-//         }
-//     }
-// }
 
 function deleteMarkers() {
     if (markers.length > 0) {
@@ -188,9 +175,10 @@ function deleteMarkers() {
             marker.setMap(null);
         });
     }
+    markers = [];
 }
 
-function createMarker(place) {
+function setPlacesMarkers(place) {
     var marker = new google.maps.Marker({
         icon: iconPlacePosition,
         map: googleMap,
@@ -205,7 +193,7 @@ function createMarker(place) {
 
 function initSearchWindow() {
     var location = document.getElementById('location');
-    var typeRest = document.getElementById('type-rest');
+    var rest = document.getElementById('rest');
     var radius = document.getElementById('radius');
     var button = document.getElementById('button');
     var searchBox2 = new google.maps.places.SearchBox(location);

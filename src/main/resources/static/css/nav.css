@@ -2,6 +2,11 @@
     margin-top: 10px;
 }
 
+.controls-button {
+     margin-top: 10px;
+     background: rgba(201, 238, 152, 0.7);
+ }
+
 a:focus {
     outline: none;
 }
