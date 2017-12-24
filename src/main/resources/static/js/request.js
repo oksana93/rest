@@ -1,4 +1,5 @@
 function placesSearch() {
+    var result;
     var rest = $("#type-rest").val();
     var location = $("#location").val();
     var radius = $("#radius").val();
@@ -14,9 +15,11 @@ function placesSearch() {
                 },
                 success: function (response) {
                     deleteMarkers();
-                    $.each(response.data, function (i) {
-                        setLocationMarker(response.data[i], location);
+                    result = response.data;
+                    $.each(result, function (i) {
+                        setLocationMarker(result[i], location);
                     });
+                    setWindowPlaces(result);
                 }
             });
         }
@@ -33,9 +36,11 @@ function placesSearch() {
                 },
                 success: function (response) {
                     deleteMarkers();
-                    $.each(response.data, function (i) {
-                        setPlacesMarkers(response.data[i]);
+                    result = response.data;
+                    $.each(result, function (i) {
+                        setPlacesMarkers(result[i]);
                     });
+                    setWindowPlaces(result);
                 }
             });
         }
@@ -52,9 +57,11 @@ function placesSearch() {
                 },
                 success: function (response) {
                     deleteMarkers();
-                    $.each(response.data, function (i) {
-                        setPlacesMarkers(response.data[i]);
+                    result = response.data;
+                    $.each(result, function (i) {
+                        setPlacesMarkers(result[i]);
                     });
+                    setWindowPlaces(result);
                 }
             });
         }

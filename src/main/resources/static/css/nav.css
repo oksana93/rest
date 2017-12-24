@@ -3,9 +3,9 @@
 }
 
 .controls-button {
-     margin-top: 10px;
-     background: rgba(201, 238, 152, 0.7);
- }
+    margin-top: 10px;
+    background: rgba(201, 238, 152, 0.7);
+}
 
 a:focus {
     outline: none;
@@ -187,11 +187,10 @@ a.active.trigger {
 
 /*-------------------------------------------*/
 
-.city-panel, .search-panel, .hotel-panel {
+.city-panel, .search-panel, .places-panel, .hotel-panel {
     position: absolute;
     display: none;
     padding: 30px 30px 30px 30px;
-    top: 10%;
     left: 67px;
     width: 341px;
     height: 90%;
@@ -199,8 +198,11 @@ a.active.trigger {
 }
 
 /*-------------------------------------------*/
+.search-panel {
+    top: 10%;
+}
 
-search-panel p {
+.search-panel p {
     margin: 0 0 15px 0;
     padding: 0;
     z-index: 4;
@@ -234,11 +236,11 @@ a.search {
 }
 
 a.search:hover {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 a.active.search {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 /*-------------------------------------------*/
@@ -277,11 +279,11 @@ a.city {
 }
 
 a.city:hover {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 a.active.city {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 /*-------------------------------------------*/
@@ -320,17 +322,45 @@ a.hotel {
 }
 
 a.hotel:hover {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 a.active.hotel {
-    text-decoration: rgba(153,255,255,1);
+    text-decoration: rgba(153, 255, 255, 1);
 }
 
 /*-------------------------------------------*/
 
-.open {display:block;}
-.close {display:none;}
+.places-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.places-panel a.search, .places-panel a.search:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.places-panel a.search:hover, .places-panel a.search:visited:hover {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
+}
+
+/*-------------------------------------------*/
+
+.open {
+    display: block;
+}
+
+.close {
+    display: none;
+}
 
 /*-------------------------------------------*/
 
@@ -371,5 +401,79 @@ hr {
 
 #tooltip-top > .tooltip-inner {
     background: white;
-    color: rgba(0,0,0,.4);
+    color: rgba(0, 0, 0, .4);
+}
+
+/* Section result */
+
+.places-panel ol {
+    height: 95%;
+    font-style: italic;
+    font-family: Georgia, Times, serif;
+    font-size: 24px;
+    color: rgba(64, 167, 179, 1);
+    overflow-y: auto;
+}
+
+.places-panel ol li p {
+    padding: 8px;
+    font-style: normal;
+    font-family: Arial;
+    font-size: 13px;
+    color: #eee;
+    border-left: 1px solid #999;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+::-webkit-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-track {
+    background-color: #999;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #999;
+}
+
+::-webkit-resizer {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------------- */
+
+.place-details-panel p {
+    margin: 0 0 15px 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.place-details-panel a.search, .place-details-panel a.search:visited {
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+}
+
+.place-details-panel a.search:hover, .place-details-panel a.search:visited:hover {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #ffffff;
+    z-index: 4;
 }

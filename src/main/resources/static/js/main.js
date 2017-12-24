@@ -37,33 +37,74 @@ $(document).ready(function () {
         $(".panel").toggle("fast").toggleClass("active");
         return false;
     });
-});
-
-$(document).ready(function () {
     $(".search").click(function () {
         $(".city-panel").toggle(false);
         $(".hotel-panel").toggle(false);
+        $(".places-panel").toggle(false);
         $(".search-panel").toggle("fast").toggleClass("active");
+        return false;
     });
-});
-
-$(document).ready(function () {
     $(".city").click(function () {
         $(".search-panel").toggle(false);
         $(".hotel-panel").toggle(false);
+        $(".places-panel").toggle(false);
         $(".city-panel").toggle("fast").toggleClass("active");
         return false;
     });
-});
-
-$(document).ready(function () {
     $(".hotel").click(function () {
         $(".city-panel").toggle(false);
         $(".search-panel").toggle(false);
+        $(".places-panel").toggle(false);
         $(".hotel-panel").toggle("fast").toggleClass("active");
         return false;
     });
 });
+
+var placeHrefElements = [];
+
+function setWindowPlaces(result) {
+    var placesPanel = document.getElementById("places-panel");
+    placesPanel.innerHTML = '';
+    placeHrefElements = [];
+
+    $(".city-panel").toggle(false);
+    $(".hotel-panel").toggle(false);
+    $(".search-panel").toggle(false);
+    $(".places-panel").toggle("fast").toggleClass("active");
+
+    var ol = document.createElement("ol");
+    $.each(result, function (i) {
+        var h3 = document.createElement("h3");
+        h3.innerHTML = result[i].name;
+        h3.setAttribute("style","color: rgba(0,0,0,0.6)");
+        var a = document.createElement("a");
+        a.class = 'place';
+        a.setAttribute("style","color: rgba(64, 167, 179, 1)");
+        a.text = result[i].vicinity;
+        a.href = '#';
+        a.title = 'Получить полную информацию';
+        var p = document.createElement("p");
+        var li = document.createElement("li");
+
+        var div_section_result = document.createElement("div");
+        div_section_result.setAttribute("class", "section-result");
+
+        p.appendChild(h3);
+        p.appendChild(a);
+        li.appendChild(p);
+        ol.appendChild(li);
+
+        a.click(function () {
+            $.each(markers, function (i) {
+                if (markers[i].name === $(".text"))
+                    markers[i].setAnimation(google.maps.Animation.BOUNCE);
+                else
+                    markers[i].setAnimation(null);
+            });
+        });
+    });
+    placesPanel.appendChild(ol);
+}
 
 function initMap() {
     if (navigator.geolocation) {
