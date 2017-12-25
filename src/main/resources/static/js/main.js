@@ -197,7 +197,39 @@ function deletePlaces() {
     places = [];
 }
 
-function setDetailsForPlaces() {
+function setDetailsForPlaces(place) {
+    var placePanel  = document.getElementById("place-panel");
+
+    var placeInfoBlock = document.getElementById("placeInfo") ;
+
+    if (placeInfoBlock)
+    {
+        placeInfoBlock.innerHTML = '';
+    }
+    else
+    {
+        placeInfoBlock = document.createElement("div");
+        placeInfoBlock.id = 'placeInfo';
+    }
+
+    var name = document.createElement("p");
+    name.innerHTML = "Адрес: "+place.name;
+
+    var distance = document.createElement("p");
+    distance.innerHTML = "Расстояние от начальной точки: "+place.distance;
+
+    var duration = document.createElement("p");
+    duration.innerHTML = "Время пути: "+place.duration;
+
+    var cost = document.createElement("p");
+    cost.innerHTML = "Стоимость ('Туда-Назад'): "+place.cost;
+
+    placeInfoBlock.appendChild(name);
+    placeInfoBlock.appendChild(distance);
+    placeInfoBlock.appendChild(duration);
+    placeInfoBlock.appendChild(cost);
+
+    placePanel.appendChild(placeInfoBlock);
 
 }
 
