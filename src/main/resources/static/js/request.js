@@ -108,3 +108,21 @@ function lucky() {
         }
     });
 }
+
+function getInfoToDistance(place) {
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/getInfo',
+        data: {
+            'startPositionLat': startPosition.lat,
+            'startPositionLng': startPosition.lng,
+            'destinationPositionLat': place.geometry.location.lat,
+            'destinationPositionLng': place.geometry.location.lng
+        },
+        success: function (response) {
+            alert("Время: "+response.duration);
+            alert("Расстояние: "+response.distance);
+        }
+    });
+}

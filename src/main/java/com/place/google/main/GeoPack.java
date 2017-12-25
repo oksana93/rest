@@ -18,13 +18,15 @@ import java.util.*;
 public class GeoPack {
     final static Logger logger = Logger.getLogger(GeoPack.class);
     final static String baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+    final static String directionUrl = "https://maps.googleapis.com/maps/api/directions/json";
     final static String nearbySearchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";// путь к Geocoding API по
     final static String geocodingSearchUrl = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по
     final static String apiKey = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
     /* AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
 
     /* Вычисление расстояния и времени между пунктами */
-    public static Map<String, String> getDistanceInfo(Point origin, Point destination, String mode) {
+
+    public static Map<String, String> getDistanceInfo(Point origin, Point destination) {
         // HTTP
         Map<String, String> requestParams = Maps.newHashMap();
         Map<String, String> resultMap;
@@ -34,11 +36,13 @@ public class GeoPack {
 
         requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком
         requestParams.put("language", "ru");// язык данные на котором мы хочем получить
-        requestParams.put("mode", mode);// способ перемещения, может быть driving, walking, bicycling
+        requestParams.put("mode", "driving");// способ перемещения, может быть driving, walking, bicycling
         requestParams.put("origin", originAddress);// адрес отправного пункта маршрута
         requestParams.put("destination", destinationAddress);// адрес конечного пункта маршрута
-        String url = baseUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
-        JSONObject response;// делаем запрос к вебсервису и получаем от него ответ
+        requestParams.put("key", apiKey);
+
+        String url = directionUrl + '?' + encodeParams(requestParams);// РіРµРЅРµСЂРёСЂСѓРµРј РїСѓС‚СЊ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё
+        JSONObject response;// РґРµР»Р°РµРј Р·Р°РїСЂРѕСЃ Рє РІРµР±СЃРµСЂРІРёСЃСѓ Рё РїРѕР»СѓС‡Р°РµРј РѕС‚ РЅРµРіРѕ РѕС‚РІРµС‚
 
         try {
             response = JsonReader.read(url);

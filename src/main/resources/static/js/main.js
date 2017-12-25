@@ -231,6 +231,7 @@ function setWindowPlaces(result) {
         a.title = 'Получить полную информацию';
         a.onclick = function () {
             windowDetailsForPlaces();
+            getInfoToDistance(result[i]);
         };
 
         var p = document.createElement("p");

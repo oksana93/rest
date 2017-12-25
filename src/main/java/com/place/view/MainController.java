@@ -1,6 +1,7 @@
 package com.place.view;
 
 import com.place.google.main.GeoPack;
+import com.place.google.main.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,6 +90,23 @@ public class MainController {
         return response;
     }
 
+    @RequestMapping(value = "/getInfo", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String,String> getPointInfo(
+            @RequestParam("startPositionLat") String startPositionLat,
+            @RequestParam("startPositionLng") String startPositionLng,
+            @RequestParam("destinationPositionLat") String destinationPositionLat,
+            @RequestParam("destinationPositionLng") String destinationPositionLng
+    )
+    {
+        Point startPosition=new Point(Double.parseDouble(startPositionLng),Double.parseDouble(startPositionLat));
+        Point destinationPosition=new Point(Double.parseDouble(destinationPositionLng),Double.parseDouble(destinationPositionLat));
+
+        Map<String,String> response = GeoPack.getDistanceInfo(startPosition,destinationPosition);
+        return response;
+    }
+
+
     private String setAnyType() {
         Random random = new Random();
         return types[random.nextInt(types.length-1)];
@@ -98,6 +116,7 @@ public class MainController {
         int radius = new Random().nextInt(40000)+10000;
         return String.valueOf(radius);
     }
+
 
     @RequestMapping(value = "/lucky", method = RequestMethod.POST)
     public @ResponseBody
@@ -111,7 +130,7 @@ public class MainController {
             response.put("result", "success");
             List<Object> result = GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, lat, lng, radius));
             List<Object> responseResult = new ArrayList<>();
-            responseResult.add(result.get(new Random().nextInt(result.size()-1)));
+            responseResult.add(result.get(new Random().nextInt(result.size() == 0? 0: result.size()-1)));
             response.put("data", responseResult);
             return response;
         } catch (IOException e) {
