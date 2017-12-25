@@ -7,8 +7,10 @@ function placesSearch() {
     deletePlaces();
     deleteMarkers();
     var opennow = document.getElementById("opennow");
+    document.getElementById("place-next").style.visibility = "hidden";
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {
+            document.getElementById("place-next").style.visibility = "visible";
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -44,6 +46,7 @@ function placesSearch() {
         });
     }
     else if (rest !== "") { // найти места по типу отдыха (от текущего положения)
+        document.getElementById("place-next").style.visibility = "visible";
         $.ajax({
             type: "POST",
             cache: false,
@@ -63,6 +66,10 @@ function placesSearch() {
             }
         });
     }
+}
+
+function getNextPlaces() {
+
 }
 
 function citySearch() {

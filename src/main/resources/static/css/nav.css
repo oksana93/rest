@@ -394,6 +394,19 @@ a.place:hover {
 a.active.place {
     text-decoration: rgba(153, 255, 255, 1);
 }
+
+a.place-next {
+    position: absolute;
+    text-decoration: none;
+    padding: 0px 30px 30px 30px !important;
+    right: 5px;
+    opacity: 1;
+    z-index: 4;
+}
+
+a.place-next:hover {
+    text-decoration: rgba(153, 255, 255, 1);
+}
 /*-------------------------------------------*/
 
 .open {

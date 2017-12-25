@@ -71,6 +71,9 @@ $(document).ready(function () {
         $(".places-panel").toggle("fast").toggleClass("active");
         return false;
     });
+    $(".place-next").click(function () {
+
+    });
 });
 
 function initSearchWindow() {
@@ -191,8 +194,8 @@ function setStartPositionMarker(lat, lng) {
 var placeHrefElements = [];
 
 function deletePlaces() {
-    var placesPanel = document.getElementById("places-panel");
-    placesPanel.innerHTML = '';
+    var ol = document.getElementById("ol");
+    ol.innerHTML = '';
     placeHrefElements = [];
     places = [];
 }
@@ -210,15 +213,13 @@ function windowDetailsForPlaces() {
 }
 
 function setWindowPlaces(result) {
-    var placesPanel = document.getElementById("places-panel");
-
     $(".city-panel").toggle(false);
     $(".hotel-panel").toggle(false);
     $(".search-panel").toggle(false);
     $(".place-panel").toggle(false);
     $(".places-panel").toggle("fast").toggleClass("active");
 
-    var ol = document.createElement("ol");
+    var ol = document.getElementById("ol");
     $.each(result, function (i) {
         var h3 = document.createElement("h3");
         h3.innerHTML = (result[i].name === undefined ? 'Address' : result[i].name);
@@ -242,7 +243,6 @@ function setWindowPlaces(result) {
         li.appendChild(p);
         ol.appendChild(li);
     });
-    placesPanel.appendChild(ol);
 }
 
 
