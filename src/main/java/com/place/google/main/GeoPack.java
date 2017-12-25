@@ -133,6 +133,15 @@ public class GeoPack {
         return getResponseNearbySearch(requestParams);
     }
 
+    /* Геодекодирование - pagination */
+    public static JSONArray getPointsByPagination() throws IOException {
+        Map<String, String> requestParams = Maps.newHashMap();
+        requestParams.put("key", apiKey);
+        requestParams.put("pagetoken", "next_page_token");
+        requestParams.put("language", "ru");
+        return getResponseNearbySearch(requestParams);
+    }
+
     /* Геодекодирование - поиск места*/
     public static JSONArray getPointByLocation(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();

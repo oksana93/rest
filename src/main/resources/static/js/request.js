@@ -3,11 +3,12 @@ function placesSearch() {
     var rest = $("#type-rest").val();
     var location = $("#location").val();
     var radius = $("#radius").val();
+    var opennow = document.getElementById("opennow");
+    document.getElementById("place-next").style.visibility = "hidden";
 
     deletePlaces();
     deleteMarkers();
-    var opennow = document.getElementById("opennow");
-    document.getElementById("place-next").style.visibility = "hidden";
+    setWindowPlaces();
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {
             document.getElementById("place-next").style.visibility = "visible";
@@ -22,7 +23,7 @@ function placesSearch() {
                 },
                 success: function (response) {
                     result = response.data;
-                    setWindowPlaces(result);
+                    createWindowPlaces(result);
                     $.each(result, function (i) {
                         setPlacesMarkers(result[i]);
                     });
@@ -38,7 +39,7 @@ function placesSearch() {
             },
             success: function (response) {
                 result = response.data;
-                setWindowPlaces(result);
+                createWindowPlaces(result)
                 $.each(result, function (i) {
                     setLocationMarker(result[i], location);
                 });
@@ -59,7 +60,7 @@ function placesSearch() {
             },
             success: function (response) {
                 result = response.data;
-                setWindowPlaces(result);
+                createWindowPlaces(result);
                 $.each(result, function (i) {
                     setPlacesMarkers(result[i]);
                 });
@@ -69,10 +70,28 @@ function placesSearch() {
 }
 
 function getNextPlaces() {
-
+    deletePlaces();
+    deleteMarkers();
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/placesPagination',
+        data: {},
+        success: function (response) {
+            result = response.data;
+            createWindowPlaces()
+            $.each(result, function (i) {
+                setPlacesMarkers(result[i]);
+            });
+        }
+    });
 }
 
 function citySearch() {
+    deletePlaces();
+    deleteMarkers();
+    setWindowPlaces();
+    document.getElementById("place-next").style.visibility = "hidden";
     var city = $("#city").val();
     if (city !== "") {
         $.ajax({
@@ -84,7 +103,7 @@ function citySearch() {
             },
             success: function (response) {
                 result = response.data;
-                setWindowPlaces(result);
+                createWindowPlaces(result)
                 $.each(result, function (i) {
                     var position = result[i].geometry.location;
                     newGoogleMapByStartPosition(position)
@@ -98,6 +117,8 @@ function citySearch() {
 function lucky() {
     deletePlaces();
     deleteMarkers();
+    setWindowPlaces();
+    document.getElementById("place-next").style.visibility = "hidden";
     $.ajax({
         type: "POST",
         cache: false,
@@ -108,7 +129,7 @@ function lucky() {
         },
         success: function (response) {
             result = response.data;
-            setWindowPlaces(result);
+            createWindowPlaces(result)
             $.each(result, function (i) {
                 setPlacesMarkers(result[i]);
             });

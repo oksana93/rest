@@ -90,6 +90,21 @@ public class MainController {
         return response;
     }
 
+    @RequestMapping(value = "/placesPagination", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> placesPagination() {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            response.put("result", "success");
+            response.put("data", GeoPack.toList(GeoPack.getPointsByPagination()));
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+
     @RequestMapping(value = "/getInfo", method = RequestMethod.POST)
     public @ResponseBody
     Map<String,String> getPointInfo(

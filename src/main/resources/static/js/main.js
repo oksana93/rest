@@ -212,13 +212,15 @@ function windowDetailsForPlaces() {
     $(".place-panel").toggle("fast").toggleClass("active");
 }
 
-function setWindowPlaces(result) {
+function setWindowPlaces() {
     $(".city-panel").toggle(false);
     $(".hotel-panel").toggle(false);
     $(".search-panel").toggle(false);
     $(".place-panel").toggle(false);
     $(".places-panel").toggle("fast").toggleClass("active");
+}
 
+function createWindowPlaces(result) {
     var ol = document.getElementById("ol");
     $.each(result, function (i) {
         var h3 = document.createElement("h3");
