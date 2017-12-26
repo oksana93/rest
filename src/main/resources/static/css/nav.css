@@ -392,8 +392,6 @@ a.place-next:hover {
 /*-------------------------------------------*/
 
 .search-help {
-    position: absolute;
-    display: none;
     margin-top: 50px;
     width: 300px;
     height: auto;

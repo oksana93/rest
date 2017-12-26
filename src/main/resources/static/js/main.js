@@ -51,7 +51,6 @@ $(document).ready(function () {
         $(".places-panel").toggle(false);
         $(".place-panel").toggle(false);
         $(".search-panel").toggle().toggleClass("active");
-        $(".search-help").toggle().toggleClass("active");
         return false;
     });
     $(".city").click(function () {
@@ -78,7 +77,7 @@ $(document).ready(function () {
         $(".hotel-panel").toggle(false);
         $(".place-panel").toggle(false);
         $(".search-type-panel").toggle(false);
-        $(".places-panel").toggle("fast").toggleClass("active");
+        $(".places-panel").toggle().toggleClass("active");
         return false;
     });
     $(".search-keyword").click(function () {

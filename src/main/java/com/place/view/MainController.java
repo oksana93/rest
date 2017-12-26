@@ -19,7 +19,7 @@ public class MainController {
         types.put("Художественная галерея", "art_gallery");
         types.put("Бар", "bar");
         types.put("Салон красоты", "beauty_salon");
-        types.put("Велосипед", "bicycle_store");
+        types.put("Для велосипедистов", "bicycle_store");
         types.put("Книжный магазин", "book_store");
         types.put("Интерес", "point_of_interest");
         types.put("Кафе", "cafe");
@@ -40,7 +40,7 @@ public class MainController {
         types.put("Фильм", "movie_rental");
         types.put("Кинотеатр", "movie_theater");
         types.put("Ночной клуб", "night_club");
-        types.put("Художник", "painter");
+        types.put("Для художников", "painter");
         types.put("Парк", "park");
         types.put("Место поклонения", "place_of_worship");
         types.put("Торговый центр", "shopping_mall");
