@@ -4,10 +4,7 @@ import com.place.google.main.GeoPack;
 import com.place.google.main.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,11 +13,11 @@ import java.util.*;
 
 public class MainController {
     private final String[] types =
-            {"amusement_park", "aquarium", "art_gallery", "atm", "bar", "beauty_salon", "bicycle_store", "book_store",
+            {"amusement_park", "aquarium", "art_gallery", "atm", "bar", "beauty_salon", "bicycle_store", "book_store", "point_of_interest",
                     "cafe", "campground", "casino", "clothing_store", "convenience_store", "department_store", "electronics_store",
                     "florist", "food", "furniture_store", "gym", "hair_care", "hardware_store", "health", "hindu_temple", "home_goods_store",
                     "laundry", "library", "liquor_store", "meal_delivery", "meal_takeaway", "movie_rental", "movie_theater", "moving_company",
-                    "museum", "night_club", "painter", "park", "place_of_worship", "restaurant",
+                    "museum", "night_club", "painter", "park", "place_of_worship", "restaurant", "food", "health", "place_of_worship",
                     "shoe_store", "shopping_mall", "spa", "stadium", "store", "travel_agency", "zoo"};
 
     private String convertToMeters(String radiusKm) {

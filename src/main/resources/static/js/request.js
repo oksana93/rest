@@ -161,7 +161,6 @@ function getNextPlaces() {
 function citySearch() {
     deletePlaces();
     deleteMarkers();
-    setWindowPlaces();
     document.getElementById("place-next").style.visibility = "hidden";
     var city = $("#city").val();
     if (city !== "") {
@@ -174,7 +173,6 @@ function citySearch() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result)
                 $.each(result, function (i) {
                     var position = result[i].geometry.location;
                     newGoogleMapByStartPosition(position)

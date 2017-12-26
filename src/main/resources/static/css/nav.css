@@ -173,7 +173,7 @@ a.active.trigger {
     display: none;
 }
 
-.city-panel, .search-panel, .places-panel, .place-panel, .search-keyword-panel .search-type-panel .hotel-panel {
+.city-panel, .search-panel, .places-panel, .place-panel, .hotel-panel {
     position: absolute;
     display: none;
     padding: 30px 30px 30px 30px;
@@ -364,14 +364,14 @@ a.place-next:hover {
 .search-keyword-panel .search-type-panel {
     position: absolute;
     display: none;
+    margin-top: 80px;
     padding: 30px 30px 30px 30px;
     left: 80px;
     width: 330px;
     height: auto;
-    z-index: 3;
+    z-index: 4;
 }
 
-/*-------------------------------------------*/
 .search-keyword-panel a.search-keyword, .search-keyword-panel a.search-keyword:visited,
 .search-type-panel a.search-type, .search-type-panel a.search-type:visited {
     margin: 0;
@@ -387,6 +387,20 @@ a.place-next:hover {
     text-decoration: none;
     border-bottom: 1px solid #ffffff;
     z-index: 5;
+}
+
+/*-------------------------------------------*/
+
+.search-help {
+    position: absolute;
+    display: none;
+    margin-top: 50px;
+    width: 300px;
+    height: auto;
+    z-index: 4;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
 }
 
 /*-------------------------------------------*/
@@ -545,16 +559,20 @@ a.search-button {
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 80px;
+    margin-top: 120px;
     margin-left: 10px;
     font-style: normal;
     font-family: Arial;
     font-size: 13px;
     transition: 0.4s ease-in-out;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0, 0, 0, 0.6);
     background: -webkit-linear-gradient(right, #E3612C 0, #E3612C 33.3%, #FCCE30 33.3%, #FCCE30 66.6%, #58554B 66.6%, #58554B) bottom no-repeat;
     background: -o-linear-gradient(right, #E3612C 0, #E3612C 33.3%, #FCCE30 33.3%, #FCCE30 66.6%, #58554B 66.6%, #58554B) bottom no-repeat;
     background: linear-gradient(to right, #E3612C 0, #E3612C 33.3%, #FCCE30 33.3%, #FCCE30 66.6%, #58554B 66.6%, #58554B) bottom no-repeat;
     background-size: 70% 2px;
 }
-a.search-button:hover {background-size: 100% 2px;}
+
+a.search-button:hover {
+    background-size: 100% 2px;
+    color: rgba(227, 97, 44, 1);
+}
