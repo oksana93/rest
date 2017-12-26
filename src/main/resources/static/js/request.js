@@ -149,8 +149,7 @@ function getInfoToDistance(place) {
             'destinationPositionLng': place.geometry.location.lng
         },
         success: function (response) {
-            alert("Время: "+response.duration);
-            alert("Расстояние: "+response.distance);
+            setDetailsForPlaces(response)
         }
     });
 }

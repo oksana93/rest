@@ -55,10 +55,17 @@ public class GeoPack {
         location = location.getJSONArray("legs").getJSONObject(0);
 
         resultMap = new HashMap<>();
+        resultMap.put("name",destinationAddress);
         resultMap.put("duration", location.getJSONObject("duration").getString("text"));
         resultMap.put("distance", location.getJSONObject("distance").getString("text"));
+        resultMap.put("cost", String.valueOf(calculateCost((Integer) location.getJSONObject("distance").get("value"),4.0)+" руб."));
 
         return resultMap;
+    }
+
+    public static double calculateCost(int distance,double rate)
+    {
+        return (distance/1000)*rate*2;
     }
 
     /* Геокодирование */
@@ -149,24 +156,6 @@ public class GeoPack {
         requestParams.put("address", address);
         requestParams.put("language", "ru");
         return getResponseGeocodingSearchUrl(requestParams);
-    }
-
-    public static double deg2rad(final double degree) {
-        return degree * (Math.PI / 180);
-    }
-
-    public static ArrayList<Point> getListPoints(JSONObject response) {
-        JSONArray results = response.getJSONArray("results");
-        JSONObject point;
-        ArrayList<Point> points = new ArrayList<>();
-        double lat, lng;
-//        for(Object o: results){
-//            if ( o instanceof JSONObject ) {
-//                point = ((JSONObject) o).getJSONObject("geometry").getJSONObject("location");
-//                points.add(new Point(point.getDouble("lng"),point.getDouble("lat")));
-//            }
-//        }
-        return points;
     }
 
     public static List<Object> toList(JSONArray array) throws JSONException {
