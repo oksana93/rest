@@ -1,3 +1,21 @@
+function getRestTypes() {
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/getTypes',
+        data: {},
+        success: function (response) {
+            var selectType = document.getElementById('type');
+
+            $.each(response, function (i) {
+                var option = document.createElement("option");
+                option.innerHTML = response[i];
+                selectType.appendChild(option);
+            });
+        }
+    });
+}
+
 function placesSearchByKeyWord() {
     var result = [];
     var rest = $("#keyword").val();

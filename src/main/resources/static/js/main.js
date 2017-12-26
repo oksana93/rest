@@ -34,6 +34,7 @@ var markers = [];
 /* city */
 var default_city = '';
 
+/* rest's types */
 /*------------------------------------------------------*/
 /* html */
 /* div */
@@ -223,6 +224,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function initSearchWindow() {
+    getRestTypes();
+
     var location_keyword = document.getElementById('location-keyword');
     var location_type = document.getElementById('location-type');
 
@@ -341,7 +344,7 @@ function createWindowPlaces(result) {
         h3.setAttribute("style", "color: rgba(0,0,0,0.6)");
         var a = document.createElement("a");
         a.class = 'place';
-        a.setAttribute("style", "color: rgba(64, 167, 179, 1)");
+        a.setAttribute("style", "color: rgba(64, 167, 179, 1)ж; font-size: 14px");
         a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
         a.href = '#';
         a.title = 'Получить полную информацию';

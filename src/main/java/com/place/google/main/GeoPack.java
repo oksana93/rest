@@ -141,7 +141,7 @@ public class GeoPack {
         requestParams.put("location", lat + "," + lng);
         requestParams.put("radius", radius);
         requestParams.put("language", "ru");
-        requestParams.put("keyword", type);
+        requestParams.put("type", type);
         return getResponseNearbySearch(requestParams);
     }
 
