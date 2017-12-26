@@ -22,14 +22,14 @@ function placesSearchByKeyWord() {
     var location = $("#location-keyword").val();
     var radius = $("#radius-keyword").val();
     var opennow = document.getElementById("opennow");
-    document.getElementById("place-next").style.visibility = "hidden";
+    // document.getElementById("place-next").style.visibility = "hidden";
 
     deletePlaces();
     deleteMarkers();
     setWindowPlaces();
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {
-            document.getElementById("place-next").style.visibility = "visible";
+            // document.getElementById("place-next").style.visibility = "visible";
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -65,7 +65,7 @@ function placesSearchByKeyWord() {
         });
     }
     else if (rest !== "") { // найти места по типу отдыха (от текущего положения)
-        document.getElementById("place-next").style.visibility = "visible";
+        // document.getElementById("place-next").style.visibility = "visible";
         $.ajax({
             type: "POST",
             cache: false,
@@ -93,14 +93,14 @@ function placesSearchByType() {
     var location = $("#location-type").val();
     var radius = $("#radius-type").val();
     var opennow = document.getElementById("opennow");
-    document.getElementById("place-next").style.visibility = "hidden";
+    // document.getElementById("place-next").style.visibility = "hidden";
 
     deletePlaces();
     deleteMarkers();
     setWindowPlaces();
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {
-            document.getElementById("place-next").style.visibility = "visible";
+            // document.getElementById("place-next").style.visibility = "visible";
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -136,7 +136,7 @@ function placesSearchByType() {
         });
     }
     else if (rest !== "") { // найти места по типу отдыха (от текущего положения)
-        document.getElementById("place-next").style.visibility = "visible";
+        // document.getElementById("place-next").style.visibility = "visible";
         $.ajax({
             type: "POST",
             cache: false,
@@ -179,7 +179,7 @@ function getNextPlaces() {
 function citySearch() {
     deletePlaces();
     deleteMarkers();
-    document.getElementById("place-next").style.visibility = "hidden";
+    // document.getElementById("place-next").style.visibility = "hidden";
     var city = $("#city").val();
     if (city !== "") {
         $.ajax({
@@ -205,7 +205,7 @@ function lucky() {
     deletePlaces();
     deleteMarkers();
     setWindowPlaces();
-    document.getElementById("place-next").style.visibility = "hidden";
+    // document.getElementById("place-next").style.visibility = "hidden";
     $.ajax({
         type: "POST",
         cache: false,

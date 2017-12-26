@@ -93,9 +93,9 @@ $(document).ready(function () {
         $(".search-type-panel").toggle().toggleClass("active");
         return false;
     });
-    $(".place-next").click(function () {
-        $('#page').val = parseInt($('#page').val) + 1;
-    });
+    // $(".place-next").click(function () {
+    //     $('#page').val = parseInt($('#page').val) + 1;
+    // });
     $("#button-city").click(function () {
         default_city = document.getElementById('city').value;
         var location_keyword = document.getElementById('location-keyword');

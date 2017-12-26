@@ -88,7 +88,7 @@ public class GeoPack {
             }
         }
 
-        return distance*(consumption/100)*costFuel;
+        return distance*(consumption/100)*costFuel/1000;
     }
 
 
