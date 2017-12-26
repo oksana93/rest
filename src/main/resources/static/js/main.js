@@ -269,6 +269,8 @@ function initSearchWindow() {
 /* new city - new map */
 function newGoogleMapByStartPosition(position) {
     markerCurrentPosition.setMap(null);
+    currentPosition.lat = position.lat;
+    currentPosition.lng = position.lng;
     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
         center: position,
         zoom: zoom,
@@ -309,7 +311,7 @@ function setNewCurrentPositionMarker(lat, lng) {
 
 /*------------------------------------------------------*/
 
-/* place-panel */
+/* places-panel */
 function deletePlaces() {
     var ol = document.getElementById("ol");
     ol.innerHTML = '';
@@ -318,7 +320,6 @@ function deletePlaces() {
 }
 
 function deletePlaceInfo(){
-
     var placeInfoBlock = document.getElementById("placeInfo");
     if (placeInfoBlock)
     {
@@ -414,7 +415,7 @@ function setDetailsForPlaces(place) {
 
     var calcButton = document.createElement("button");
     calcButton.id = "calcConsumpFuel";
-    calcButton.textContent = "Рассчитать"
+    calcButton.textContent = "Рассчитать";
 
     costFuelBlock.appendChild(label_1);
     costFuelBlock.appendChild(label_2);
@@ -432,7 +433,7 @@ function setDetailsForPlaces(place) {
 
     calcButton.onclick = function () {
         getCostFuelConsumption(fuelElements,inputConspumpFuel.value,place.distanceValue);
-    }
+    };
 
     placePanel.appendChild(placeInfoBlock);
     placePanel.appendChild(costFuelBlock);
