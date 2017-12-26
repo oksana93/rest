@@ -22,10 +22,12 @@ function placesSearchByKeyWord() {
     var location = $("#location-keyword").val();
     var radius = $("#radius-keyword").val();
     var opennow = document.getElementById("opennow");
+
     // document.getElementById("place-next").style.visibility = "hidden";
 
     deletePlaces();
     deleteMarkers();
+    deletePlaceInfo();
     setWindowPlaces();
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {

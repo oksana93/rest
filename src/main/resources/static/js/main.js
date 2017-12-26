@@ -320,23 +320,25 @@ function deletePlaces() {
 function deletePlaceInfo(){
 
     var placeInfoBlock = document.getElementById("placeInfo");
-    placeInfoBlock.innerHTML = '';
+    if (placeInfoBlock)
+    {
+        placeInfoBlock.innerHTML = '';
+    }
 
     var costFuelBlock = document.getElementById("costFuelInfo");
-    costFuelBlock.innerHTML = '';
+    if (costFuelBlock)
+    {
+        costFuelBlock.innerHTML = '';
+    }
 }
 
 function setDetailsForPlaces(place) {
     var placePanel  = document.getElementById("place-panel");
 
-    var placeInfoBlock = document.createElement("div");
-    placeInfoBlock.id = 'placeInfo';
     var placeInfoBlock = document.getElementById("placeInfo");
 
-    if (placeInfoBlock) {
-        placeInfoBlock.innerHTML = '';
-    }
-    else {
+    if (!placeInfoBlock)
+    {
         placeInfoBlock = document.createElement("div");
         placeInfoBlock.id = 'placeInfo';
     }
@@ -357,8 +359,13 @@ function setDetailsForPlaces(place) {
     placeInfoBlock.appendChild(distance);
     placeInfoBlock.appendChild(duration);
 
-    var costFuelBlock = document.createElement("div");
-    costFuelBlock.id = 'costFuelInfo';
+    var costFuelBlock = document.getElementById("costFuelInfo");
+
+    if (!costFuelBlock)
+    {
+        costFuelBlock = document.createElement("div");
+        costFuelBlock.id = 'costFuelInfo';
+    }
 
     var fuel_1 = document.createElement("input");//92
     fuel_1.type = 'radio';
