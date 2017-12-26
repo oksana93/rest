@@ -169,8 +169,7 @@ a.active.trigger {
 /*-------------------------------------------*/
 
 .opennow {
-    position: absolute;
-    display: none;
+
 }
 
 .city-panel, .search-panel, .places-panel, .place-panel, .hotel-panel {

@@ -34,7 +34,10 @@ var markers = [];
 /* city */
 var default_city = '';
 
-/* rest's types */
+/* places */
+var places = [];
+var oldPlaces = [];
+var placeHrefElements = [];
 /*------------------------------------------------------*/
 /* html */
 /* div */
@@ -108,6 +111,27 @@ $(document).ready(function () {
         var location_type = document.getElementById('location-type');
         location_type.value = default_city + ', ';
     });
+    $("#opennow").change(function () {
+        if ($('#opennow').prop('checked')) {/* filters */
+            oldPlaces = places;
+            deletePlaces();
+            $.each(places, function (i) {
+                if (oldPlaces[i].hasOwnProperty(opening_hour))
+                    if (oldPlaces[i].opening_hour.opennow === "true") {
+                        places[places.length + 1] = oldPlaces[i];
+                    }
+                    else
+                        markers[i].setAnimation(null);
+            });
+            createWindowPlaces(places);
+        }
+        else {
+            deletePlaces();
+            places = oldPlaces;
+            createWindowPlaces(places);
+        }
+
+    });
 });
 
 
@@ -131,9 +155,9 @@ function setWindowPlaces() {
 /* init function */
 $(function () {
     initMap();
-   setTimeout(function() {
-       initSearchWindow();
-   },500);
+    setTimeout(function () {
+        initSearchWindow();
+    }, 500);
 });
 
 function initMap() {
@@ -284,12 +308,8 @@ function setNewCurrentPositionMarker(lat, lng) {
 }
 
 /*------------------------------------------------------*/
+
 /* place-panel */
-
-/* places */
-var places = [];
-var placeHrefElements = [];
-
 function deletePlaces() {
     var ol = document.getElementById("ol");
     ol.innerHTML = '';
@@ -416,20 +436,21 @@ function setDetailsForPlaces(place) {
 /* places-panel */
 
 function createWindowPlaces(result) {
+    places = result;
     var ol = document.getElementById("ol");
-    $.each(result, function (i) {
+    $.each(places, function (i) {
         var h3 = document.createElement("h3");
-        h3.innerHTML = (result[i].name === undefined ? 'Address' : result[i].name);
+        h3.innerHTML = (places[i].name === undefined ? 'Address' : places[i].name);
         h3.setAttribute("style", "color: rgba(0,0,0,0.6)");
         var a = document.createElement("a");
         a.class = 'place';
         a.setAttribute("style", "color: rgba(64, 167, 179, 1)ж; font-size: 14px");
-        a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
+        a.text = (places[i].vicinity === undefined ? places[i].formatted_address : places[i].vicinity);
         a.href = '#';
         a.title = 'Получить полную информацию';
         a.onclick = function () {
             windowDetailsForPlaces();
-            getInfoToDistance(result[i]);
+            getInfoToDistance(places[i]);
         };
 
         var p = document.createElement("p");
@@ -484,13 +505,3 @@ function setPlacesMarkers(place) {
 }
 
 /*------------------------------------------------------*/
-
-/* filters */
-function setFilterToPlaces() {
-    $.each(places, function (i) {
-        if (places[i].opennow === "true")
-            places[i].setAnimation(google.maps.Animation.BOUNCE);
-        else
-            markers[i].setAnimation(null);
-    });
-}
