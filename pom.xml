@@ -77,8 +77,8 @@
 
         <!--<dependency>-->
             <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-placesSearch</artifactId>-->
-            <!--<scope>placesSearch</scope>-->
+            <!--<artifactId>spring-security-placesSearchByKeyWord</artifactId>-->
+            <!--<scope>placesSearchByKeyWord</scope>-->
         <!--</dependency>-->
 
         <!-- google -->

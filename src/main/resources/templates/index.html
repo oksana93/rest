@@ -44,18 +44,29 @@
     </div>
     <div class="search-panel">
         <a class="luck" href="#" title="!!! Мне повезет !!!" onclick="lucky()"/>
+        <a class="search-button search-keyword" href="#" title="Поиск места по ключевому слову">Поиск (keyWord)</a>
+        <a class="search-button search-type" href="#" title="Поиск места по типу отдыха">Поиск (type)</a>
 
         <!--<input type="checkbox" class="opennow" id = "opennow" name="opennow" onclick="setFilterToPlaces()">Открыто</input>-->
         <!-- Cодержимое панели -->
-        <input id="location" name="location" class="form-control form-control-lg controls" type="text"
-               placeholder="Введите адрес" style="text-align: center; margin-top: 100px"/>
-        <input id="type-rest" name="type-rest" class="form-control form-control-lg controls" type="text"
-               placeholder="Параметры поиска" style="text-align: center"/>
-        <input id="radius" name="radius" class="form-control form-control-lg controls" type="number"
-               placeholder="Максимальное расстояние (км)" style="text-align: center"/>
-        <button id="button" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearch()">Поиск</button>
         <input id="page" name="page" type="hidden" value="1"/>
-        <div class="additional-panel">
+        <div class="search-keyword-panel">
+            <input id="location-keyword" name="location" class="form-control form-control-lg controls" type="text"
+                   placeholder="Введите адрес" style="text-align: center; margin-top: 20px"/>
+            <input id="keyword" name="type-rest" class="form-control form-control-lg controls" type="text"
+                   placeholder="Параметры поиска" style="text-align: center"/>
+            <input id="radius-keyword" name="radius" class="form-control form-control-lg controls" type="number"
+                   placeholder="Максимальное расстояние (км)" style="text-align: center"/>
+            <button id="button-keyword" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearchByKeyWord()">Поиск</button>
+        </div>
+        <div class="search-type-panel">
+            <input id="location-type" name="location" class="form-control form-control-lg controls" type="text"
+                   placeholder="Введите адрес" style="text-align: center; margin-top: 20px"/>
+            <input id="type" name="type-rest" class="form-control form-control-lg controls" type="text"
+                   placeholder="" style="text-align: center"/>
+            <input id="radius-type" name="radius" class="form-control form-control-lg controls" type="number"
+                   placeholder="Максимальное расстояние (км)" style="text-align: center"/>
+            <button id="button-type" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearchByKeyWord()">Поиск</button>
         </div>
     </div>
     <div class="places-panel" id="places-panel">

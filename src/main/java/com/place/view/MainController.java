@@ -53,17 +53,17 @@ public class MainController {
         return response;
     }
 
-    @RequestMapping(value = "/placesSearch", method = RequestMethod.POST)
+    @RequestMapping(value = "/placesSearchByKeyWord", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> placesSearch(
             @RequestParam("location") String location,
-            @RequestParam("type-rest") String type,
+            @RequestParam("keyword") String keyword,
             @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
             response.put("data", GeoPack.toList(
-                    GeoPack.getPointsByKeyword(type, location, convertToMeters(radius))));
+                    GeoPack.getPointsByKeyword(keyword, location, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,17 +71,17 @@ public class MainController {
         return response;
     }
 
-    @RequestMapping(value = "/placesSearchByCurrentMarker", method = RequestMethod.POST)
+    @RequestMapping(value = "/placesSearchByCurrentMarkerAndKeyWord", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> placesSearchByCurrentMarker(
             @RequestParam("lat") String lat,
             @RequestParam("lng") String lng,
-            @RequestParam("type-rest") String type,
+            @RequestParam("keyword") String keyword,
             @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(type, lat, lng, convertToMeters(radius))));
+            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(keyword, lat, lng, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,10 +126,11 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            List<Object> result = GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(type, lat, lng, radius));
+            List<Object> result = GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndType(type, lat, lng, radius));
             List<Object> responseResult = new ArrayList<>();
             if (result.size() != 0)
-                responseResult.add(result.get(new Random().nextInt(result.size() - 1)));
+                responseResult.add(result.get(
+                        new Random().nextInt(result.size() - 1)));
             response.put("data", responseResult);
             return response;
         } catch (IOException e) {

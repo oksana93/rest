@@ -37,6 +37,16 @@ $(document).ready(function () {
         $(".places-panel").toggle("fast").toggleClass("active");
         return false;
     });
+    $(".search-keyword").click(function () {
+        $(".search-type-panel").toggle(false);
+        $(".search-keyword-panel").toggle("fast").toggleClass("active");
+        return false;
+    });
+    $(".search-type").click(function () {
+        $(".search-keyword-panel").toggle(false);
+        $(".search-type-panel").toggle("fast").toggleClass("active");
+        return false;
+    });
     $(".place-next").click(function () {
         $('#page').val = parseInt($('#page').val)+1;
     });
