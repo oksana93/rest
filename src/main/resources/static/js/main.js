@@ -72,7 +72,7 @@ $(document).ready(function () {
         return false;
     });
     $(".place-next").click(function () {
-
+        $('#page').val = parseInt($('#page').val)+1;
     });
 });
 
@@ -170,6 +170,7 @@ function setStartPositionMarker(lat, lng) {
     startPosition.lat = lat;
     startPosition.lng = lng;
 
+    markerStartPosition.setMap(null);
     markerStartPosition = new google.maps.Marker({
         map: googleMap,
         position: startPosition,

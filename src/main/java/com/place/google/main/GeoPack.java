@@ -21,6 +21,7 @@ public class GeoPack {
     final static String directionUrl = "https://maps.googleapis.com/maps/api/directions/json";
     final static String nearbySearchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";// путь к Geocoding API по
     final static String geocodingSearchUrl = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по
+
     final static String apiKey = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
     /* AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
 
@@ -137,15 +138,6 @@ public class GeoPack {
         requestParams.put("radius", radius);
         requestParams.put("language", "ru");
         requestParams.put("keyword", keyWord);
-        return getResponseNearbySearch(requestParams);
-    }
-
-    /* Геодекодирование - pagination */
-    public static JSONArray getPointsByPagination() throws IOException {
-        Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("key", apiKey);
-        requestParams.put("pagetoken", "next_page_token");
-        requestParams.put("language", "ru");
         return getResponseNearbySearch(requestParams);
     }
 

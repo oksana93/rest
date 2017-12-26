@@ -138,6 +138,7 @@ function lucky() {
 }
 
 function getInfoToDistance(place) {
+    var result = [];
     $.ajax({
         type: "POST",
         cache: false,
