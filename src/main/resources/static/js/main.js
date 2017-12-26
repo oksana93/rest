@@ -1,39 +1,5 @@
-'use strict';
-var iconYourPosition = {
-    url: '/images/start_marker.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-var iconPlacePosition = {
-    url: '/images/places_marker.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-var iconLocation = {
-    url: '/images/location_small.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-
-var zoom = 15;
-
-var options; // geolocation's params
-var googleMap;
-
-var defaultPosition = {lat: 53.212702, lng: 50.178725};
-var startPosition; // geolocation (position)
-
-var infoWindowForStartPosition = new google.maps.InfoWindow();
-var infoWindowForPlaces = new google.maps.InfoWindow();
-
-var markerStartPosition; // geolocation (marker)
-var markerLocation; // location
-var markers = []; // other markers
-
-var places = []
-
-$(function () {
-    initMap();
-    initSearchWindow();
-});
-
+/* html */
+/* div */
 $(document).ready(function () {
     $(".trigger").click(function () {
         $(".panel").toggle("fast").toggleClass("active");
@@ -76,13 +42,61 @@ $(document).ready(function () {
     });
 });
 
-function initSearchWindow() {
-    var location = document.getElementById('location');
-    var rest = document.getElementById('rest');
-    var radius = document.getElementById('radius');
-    var button = document.getElementById('button');
-    var searchBox2 = new google.maps.places.SearchBox(location);
+
+function windowDetailsForPlaces() {
+    $(".city-panel").toggle(false);
+    $(".hotel-panel").toggle(false);
+    $(".search-panel").toggle(false);
+    $(".places-panel").toggle(false);
+    $(".place-panel").toggle("fast").toggleClass("active");
 }
+
+function setWindowPlaces() {
+    $(".city-panel").toggle(false);
+    $(".hotel-panel").toggle(false);
+    $(".search-panel").toggle(false);
+    $(".place-panel").toggle(false);
+    $(".places-panel").toggle("fast").toggleClass("active");
+}
+
+/*------------------------------------------------------*/
+/* icon - images */
+var iconCurrentPosition = {
+    url: '/images/start_marker.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+var iconPlacesPosition = {
+    url: '/images/places_marker.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+var iconCenterPlacesPosition = {
+    url: '/images/location_small.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+
+/* maps and params */
+var googleMap;
+var options;
+var zoom = 15;
+
+/* positions */
+var defaultCurrentPosition = {lat: 53.212702, lng: 50.178725};
+var currentPosition;
+
+/* infoWindow */
+var infoWindowForCurrentPosition = new google.maps.InfoWindow();
+
+/* markers */
+var markerCurrentPosition;
+var markerCenterPlaces;
+var markers = [];
+
+/*------------------------------------------------------*/
+/* init function */
+$(function () {
+    initMap();
+    initSearchWindow();
+});
 
 function initMap() {
     if (navigator.geolocation) {
@@ -95,49 +109,49 @@ function initMap() {
         navigator.geolocation.watchPosition(
             function (position) {
 
-                startPosition = {
+                currentPosition = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
                 setTimeout(function () {
                     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
-                        center: startPosition,
+                        center: currentPosition,
                         zoom: zoom,
                         navigationControlOptions: {
                             style: google.maps.NavigationControlStyle.SMALL
                         }
                     });
 
-                    markerStartPosition = new google.maps.Marker({
+                    markerCurrentPosition = new google.maps.Marker({
                         map: googleMap,
-                        position: startPosition,
-                        icon: iconYourPosition,
+                        position: currentPosition,
+                        icon: iconCurrentPosition,
                         draggable: true,
                         size: "20px"
                     });
 
-                    google.maps.event.addListener(markerStartPosition, 'click', function () {
-                        infoWindowForPlaces.setContent('Текущее положение<br/>' +
-                            'lat: ' + startPosition.lat + '<br/>' +
-                            'lng: ' + startPosition.lng);
-                        infoWindowForPlaces.open(googleMap, this);
+                    google.maps.event.addListener(markerCurrentPosition, 'click', function () {
+                        infoWindowForCurrentPosition.setContent('Текущее положение<br/>' +
+                            'lat: ' + currentPosition.lat + '<br/>' +
+                            'lng: ' + currentPosition.lng);
+                        infoWindowForCurrentPosition.open(googleMap, this);
                     });
 
-                    google.maps.event.addListener(markerStartPosition, 'dragend', function (event) {
-                        setStartPositionMarker(event.latLng.lat(), event.latLng.lng());  // Координаты маркера
+                    google.maps.event.addListener(markerCurrentPosition, 'dragend', function (event) {
+                        setNewCurrentPositionMarker(event.latLng.lat(), event.latLng.lng());  // Координаты маркера
                     });
                 }, 500);
             },
             function (error) {
-                handleLocationError(true, infoWindowForPlaces, googleMap.getCenter());
+                handleLocationError(true, infoWindowForCurrentPosition, googleMap.getCenter());
             },
             options);
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindowForPlaces, googleMap.getCenter());
+        handleLocationError(false, infoWindowForCurrentPosition, googleMap.getCenter());
 
         googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
-            center: defaultPosition,
+            center: defaultCurrentPosition,
             zoom: zoom,
             navigationControlOptions: {
                 style: google.maps.NavigationControlStyle.SMALL
@@ -153,9 +167,18 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation. Default position');
 }
 
-/* new city */
+function initSearchWindow() {
+    var location = document.getElementById('location');
+    var rest = document.getElementById('rest');
+    var radius = document.getElementById('radius');
+    var button = document.getElementById('button');
+    var searchBox2 = new google.maps.places.SearchBox(location);
+}
+
+/*------------------------------------------------------*/
+/* new city - new map */
 function newGoogleMapByStartPosition(position) {
-    markerStartPosition.setMap(null);
+    markerCurrentPosition.setMap(null);
     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
         center: position,
         zoom: zoom,
@@ -165,33 +188,39 @@ function newGoogleMapByStartPosition(position) {
     });
 }
 
-/* new StartPositionMarker */
-function setStartPositionMarker(lat, lng) {
-    startPosition.lat = lat;
-    startPosition.lng = lng;
+/*------------------------------------------------------*/
+/* new markerCurrentPosition */
+function setNewCurrentPositionMarker(lat, lng) {
+    currentPosition.lat = lat;
+    currentPosition.lng = lng;
 
-    markerStartPosition.setMap(null);
-    markerStartPosition = new google.maps.Marker({
+    markerCurrentPosition.setMap(null);
+    markerCurrentPosition = new google.maps.Marker({
         map: googleMap,
-        position: startPosition,
-        icon: iconYourPosition,
+        position: currentPosition,
+        icon: iconCurrentPosition,
         draggable: true,
         size: "20px"
     });
 
-    google.maps.event.addListener(markerStartPosition, 'click', function () {
-        infoWindowForPlaces.setContent('Текущее положение<br/>' +
-            'lat: ' + startPosition.lat + '<br/>' +
-            'lng: ' + startPosition.lng);
-        infoWindowForPlaces.open(googleMap, this);
+    google.maps.event.addListener(markerCurrentPosition, 'click', function () {
+        infoWindowForCurrentPosition.setContent('Текущее положение<br/>' +
+            'lat: ' + currentPosition.lat + '<br/>' +
+            'lng: ' + currentPosition.lng);
+        infoWindowForCurrentPosition.open(googleMap, this);
     });
 
-    google.maps.event.addListener(markerStartPosition, 'dragend', function (event) {
-        infoWindowForPlaces.close();
-        setStartPositionMarker(event.latLng.lat(), event.latLng.lng());  // Координаты маркера
+    google.maps.event.addListener(markerCurrentPosition, 'dragend', function (event) {
+        infoWindowForCurrentPosition.close();
+        setNewCurrentPositionMarker(event.latLng.lat(), event.latLng.lng());  // Координаты маркера
     });
 }
 
+/*------------------------------------------------------*/
+/* place-panel */
+
+/* places */
+var places = [];
 var placeHrefElements = [];
 
 function deletePlaces() {
@@ -237,21 +266,8 @@ function setDetailsForPlaces(place) {
 
 }
 
-function windowDetailsForPlaces() {
-    $(".city-panel").toggle(false);
-    $(".hotel-panel").toggle(false);
-    $(".search-panel").toggle(false);
-    $(".places-panel").toggle(false);
-    $(".place-panel").toggle("fast").toggleClass("active");
-}
-
-function setWindowPlaces() {
-    $(".city-panel").toggle(false);
-    $(".hotel-panel").toggle(false);
-    $(".search-panel").toggle(false);
-    $(".place-panel").toggle(false);
-    $(".places-panel").toggle("fast").toggleClass("active");
-}
+/*------------------------------------------------------*/
+/* places-panel */
 
 function createWindowPlaces(result) {
     var ol = document.getElementById("ol");
@@ -280,7 +296,8 @@ function createWindowPlaces(result) {
     });
 }
 
-
+/*------------------------------------------------------*/
+/* markers */
 function deleteMarkers() {
     if (markers.length > 0) {
         markers.forEach(function callback(marker, markers) {
@@ -290,35 +307,37 @@ function deleteMarkers() {
     markers = [];
 }
 
-/* new location */
-function setLocationMarker(place) {
-    markerLocation = new google.maps.Marker({
+/* new location (center) */
+function setCenterPlacesMarker(place) {
+    markerCenterPlaces = new google.maps.Marker({
         map: googleMap,
         position: place.geometry.location,
-        icon: iconLocation
+        icon: iconCenterPlacesPosition
     });
     places[places.length + 1] = place;
-    google.maps.event.addListener(markerLocation, 'click', function () {
-        infoWindowForPlaces.setContent(place.formatted_address);
-        infoWindowForPlaces.open(googleMap, this);
-        infoWindowForPlaces.gm_bindings_.maxWidth = 150;
+    google.maps.event.addListener(markerCenterPlaces, 'click', function () {
+        infoWindowForCurrentPosition.setContent(place.formatted_address);
+        infoWindowForCurrentPosition.open(googleMap, this);
+        infoWindowForCurrentPosition.gm_bindings_.maxWidth = 150;
     });
 }
 
 function setPlacesMarkers(place) {
     var marker = new google.maps.Marker({
-        icon: iconPlacePosition,
+        icon: iconPlacesPosition,
         map: googleMap,
         position: place.geometry.location
     });
     places[places.length + 1] = place;
     google.maps.event.addListener(marker, 'click', function () {
-        infoWindowForPlaces.setContent(place.name);
-        infoWindowForPlaces.open(googleMap, this);
+        infoWindowForCurrentPosition.setContent(place.name);
+        infoWindowForCurrentPosition.open(googleMap, this);
     });
     markers[markers.length + 1] = marker;
 }
 
+/*------------------------------------------------------*/
+/* filters */
 function setFilterToPlaces() {
     $.each(places, function (i) {
         if (places[i].opennow === "true")

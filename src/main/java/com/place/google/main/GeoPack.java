@@ -16,39 +16,40 @@ import java.util.*;
 
 
 public class GeoPack {
-    final static Logger logger = Logger.getLogger(GeoPack.class);
-    final static String baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-    final static String directionUrl = "https://maps.googleapis.com/maps/api/directions/json";
-    final static String nearbySearchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";// путь к Geocoding API по
-    final static String geocodingSearchUrl = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по
+    final static Logger LOGGER = Logger.getLogger(GeoPack.class);
+    final static String GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+    final static String DIRECTION_URL = "https://maps.googleapis.com/maps/api/directions/json";
+    final static String NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";// путь к Geocoding API по
+    final static String GEOCODING_SEARCH_URL = "https://maps.googleapis.com/maps/api/geocode/json";// путь к Geocoding API по
 
-    final static String apiKey = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
-    /* AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
+    final static String API_KEY = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
+    /* API_KEY = AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
 
-    /* Вычисление расстояния и времени между пунктами */
+    /* Time and distance */
+
+    private static double calculateCost(int distance,double rate)
+    {
+        return (distance/1000)*rate*2;
+    }
 
     public static Map<String, String> getDistanceInfo(Point origin, Point destination) {
-        // HTTP
         Map<String, String> requestParams = Maps.newHashMap();
         Map<String, String> resultMap;
 
-        String originAddress = getAddress(origin);
-        String destinationAddress = getAddress(destination);
+        String originAddress = getAddressByGeocode(origin);
+        String destinationAddress = getAddressByGeocode(destination);
+        requestParams.put("language", "ru");
+        requestParams.put("mode", "driving");// driving, walking, bicycling - travel's way
+        requestParams.put("origin", originAddress);// start position
+        requestParams.put("destination", destinationAddress);// end position
+        requestParams.put("key", API_KEY);
 
-        requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком
-        requestParams.put("language", "ru");// язык данные на котором мы хочем получить
-        requestParams.put("mode", "driving");// способ перемещения, может быть driving, walking, bicycling
-        requestParams.put("origin", originAddress);// адрес отправного пункта маршрута
-        requestParams.put("destination", destinationAddress);// адрес конечного пункта маршрута
-        requestParams.put("key", apiKey);
-
-        String url = directionUrl + '?' + encodeParams(requestParams);// РіРµРЅРµСЂРёСЂСѓРµРј РїСѓС‚СЊ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё
-        JSONObject response;// РґРµР»Р°РµРј Р·Р°РїСЂРѕСЃ Рє РІРµР±СЃРµСЂРІРёСЃСѓ Рё РїРѕР»СѓС‡Р°РµРј РѕС‚ РЅРµРіРѕ РѕС‚РІРµС‚
-
+        String url = DIRECTION_URL + '?' + encodeParams(requestParams);
+        JSONObject response;
         try {
             response = JsonReader.read(url);
         } catch (IOException e) {
-            logger.error("Возникла ошибка во время получения расстояния и времени между пунктами, url: " + url);
+            LOGGER.error("Возникла ошибка во время получения расстояния и времени между пунктами, url: " + url);
             return null;
         }
 
@@ -64,65 +65,45 @@ public class GeoPack {
         return resultMap;
     }
 
-    public static double calculateCost(int distance,double rate)
-    {
-        return (distance/1000)*rate*2;
-    }
 
-    /* Геокодирование */
-    public static String getAddress(Point point) {
+    /* Geocoding */
+    public static String getAddressByGeocode(Point point) {
         Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("language", "ru");// язык данные на котором мы хочем получить
-        requestParams.put("sensor", "false");// исходит ли запрос на геокодирование от устройства с датчиком местоположения
-        // текстовое значение широты/долготы, для которого следует получить ближайший понятный человеку адрес, догота и
-        // широта разделяется запятой, берем из предыдущего примера
+        requestParams.put("language", "ru");
         requestParams.put("latlng", String.valueOf(point.getLat()) + "," + String.valueOf(point.lng));
-        final String url = baseUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
-        System.out.println(url);// Путь, что бы можно было посмотреть в браузере ответ службы
-        JSONObject response;// делаем запрос к вебсервису и получаем от него ответ
+        final String url = GEOCODE_URL + '?' + encodeParams(requestParams);
+        JSONObject response;
         try {
             response = JsonReader.read(url);
         } catch (IOException e) {
-            logger.error("Возникла ошибка во время получения адреса по координатам");
+            LOGGER.error("Возникла ошибка во время получения адреса по координатам");
             return null;
         }
-
         JSONObject location = response.getJSONArray("results").getJSONObject(0);
         return location.getString("formatted_address");
     }
 
-    public static JSONArray getResponseGeocodingSearchUrl(Map<String, String> requestParams) throws IOException {
-        String url = geocodingSearchUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
-        JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
-        return response.getJSONArray("results");
-    }
-
-    public static JSONObject getJsonPoint(String address) throws IOException {
+    /* Geodezy */
+    public static Point getPointByAddress(String address) throws IOException {
         JSONArray response = getPointByLocation(address);
         JSONObject location = response.getJSONObject(0);
         location = location.getJSONObject("geometry");
         location = location.getJSONObject("location");
-        return location;
-    }
-
-    public static Point getPoint(String address) throws IOException {
-        JSONObject location = getJsonPoint(address);
         Point point = new Point(location.getDouble("lng"), location.getDouble("lat"));
         return point;
     }
 
     public static JSONArray getResponseNearbySearch(Map<String, String> requestParams) throws IOException {
-        String url = nearbySearchUrl + '?' + encodeParams(requestParams);// генерируем путь с параметрами
-        JSONObject response = JsonReader.read(url);// делаем запрос к вебсервису и получаем от него ответ
+        String url = NEARBY_SEARCH_URL + '?' + encodeParams(requestParams);
+        JSONObject response = JsonReader.read(url);
         return response.getJSONArray("results");
     }
 
-    /* Геодекодирование - запрос по центру, радиусу и типу отдыха */
-    public static JSONArray getPoints(String keyWord, String location, String radius) throws IOException {
-        Point locationPoint = GeoPack.getPoint(location);
+    /* Geodezy - keyWord, location, radius*/
+    public static JSONArray getPointsByKeyword(String keyWord, String location, String radius) throws IOException {
+        Point locationPoint = GeoPack.getPointByAddress(location);
         Map<String, String> requestParams = Maps.newHashMap();
-        //requestParams.put("sensor", "false");// указывает, исходит ли запрос на геокодирование от устройства с датчиком местоположения
-        requestParams.put("key", apiKey);
+        requestParams.put("key", API_KEY);
         requestParams.put("location", locationPoint.getLat() + "," + locationPoint.getLng());
         requestParams.put("radius", radius);
         requestParams.put("language", "ru");
@@ -130,10 +111,22 @@ public class GeoPack {
         return getResponseNearbySearch(requestParams);
     }
 
-    /* Геодекодирование - запрос по центру, радиусу и типу отдыха */
-    public static JSONArray getPointsByCurrentMarker(String keyWord, String lat, String lng, String radius) throws IOException {
+    /* Geodezy - type, location, radius*/
+    public static JSONArray getPointsByType(String type, String location, String radius) throws IOException {
+        Point locationPoint = GeoPack.getPointByAddress(location);
         Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("key", apiKey);
+        requestParams.put("key", API_KEY);
+        requestParams.put("location", locationPoint.getLat() + "," + locationPoint.getLng());
+        requestParams.put("radius", radius);
+        requestParams.put("language", "ru");
+        requestParams.put("type", type);
+        return getResponseNearbySearch(requestParams);
+    }
+
+    /* Geodezy - keyWord, currentLocation (lat, lng), radius */
+    public static JSONArray getPointsByCurrentMarkerAndKeyWord(String keyWord, String lat, String lng, String radius) throws IOException {
+        Map<String, String> requestParams = Maps.newHashMap();
+        requestParams.put("key", API_KEY);
         requestParams.put("location", lat + "," + lng);
         requestParams.put("radius", radius);
         requestParams.put("language", "ru");
@@ -141,14 +134,29 @@ public class GeoPack {
         return getResponseNearbySearch(requestParams);
     }
 
-    /* Геодекодирование - поиск места*/
+    /* Geodezy - type, currentLocation (lat, lng), radius */
+    public static JSONArray getPointsByCurrentMarkerAndType(String type, String lat, String lng, String radius) throws IOException {
+        Map<String, String> requestParams = Maps.newHashMap();
+        requestParams.put("key", API_KEY);
+        requestParams.put("location", lat + "," + lng);
+        requestParams.put("radius", radius);
+        requestParams.put("language", "ru");
+        requestParams.put("keyword", type);
+        return getResponseNearbySearch(requestParams);
+    }
+
+    /* Geodezy - position by address */
     public static JSONArray getPointByLocation(String address) throws IOException {
         Map<String, String> requestParams = Maps.newHashMap();
-        requestParams.put("key", apiKey);
+        requestParams.put("key", API_KEY);
         requestParams.put("address", address);
         requestParams.put("language", "ru");
-        return getResponseGeocodingSearchUrl(requestParams);
+        String url = GEOCODING_SEARCH_URL + '?' + encodeParams(requestParams);
+        JSONObject response = JsonReader.read(url);
+        return response.getJSONArray("results");
     }
+
+    /* --------------------------------------------------------------------- */
 
     public static List<Object> toList(JSONArray array) throws JSONException {
         List<Object> list = new ArrayList<Object>();
@@ -181,6 +189,8 @@ public class GeoPack {
         }
         return map;
     }
+
+    /* --------------------------------------------------------------------- */
 
     public static String encodeParams(final Map<String, String> params) {
         final String paramsUrl = Joiner.on('&').join(// получаем значение вида key1=value1&key2=value2...

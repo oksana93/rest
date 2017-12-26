@@ -41,7 +41,7 @@ function placesSearch() {
                 result = response.data;
                 createWindowPlaces(result)
                 $.each(result, function (i) {
-                    setLocationMarker(result[i], location);
+                    setCenterPlacesMarker(result[i], location);
                 });
             }
         });
@@ -53,8 +53,8 @@ function placesSearch() {
             cache: false,
             url: '/placesSearchByCurrentMarker',
             data: {
-                'lat': startPosition.lat,
-                'lng': startPosition.lng,
+                'lat': currentPosition.lat,
+                'lng': currentPosition.lng,
                 'type-rest': rest,
                 'radius': (radius !== "" ? radius : 10)
             },
@@ -107,7 +107,7 @@ function citySearch() {
                 $.each(result, function (i) {
                     var position = result[i].geometry.location;
                     newGoogleMapByStartPosition(position)
-                    setStartPositionMarker(position.lat, position.lng);
+                    setNewCurrentPositionMarker(position.lat, position.lng);
                 });
             }
         });
@@ -124,8 +124,8 @@ function lucky() {
         cache: false,
         url: '/lucky',
         data: {
-            'lat': startPosition.lat,
-            'lng': startPosition.lng,
+            'lat': currentPosition.lat,
+            'lng': currentPosition.lng,
         },
         success: function (response) {
             result = response.data;
@@ -144,8 +144,8 @@ function getInfoToDistance(place) {
         cache: false,
         url: '/getInfo',
         data: {
-            'startPositionLat': startPosition.lat,
-            'startPositionLng': startPosition.lng,
+            'startPositionLat': currentPosition.lat,
+            'startPositionLng': currentPosition.lng,
             'destinationPositionLat': place.geometry.location.lat,
             'destinationPositionLng': place.geometry.location.lng
         },

@@ -2,7 +2,6 @@ package com.place.view;
 
 import com.place.google.main.GeoPack;
 import com.place.google.main.Point;
-import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +63,7 @@ public class MainController {
         try {
             response.put("result", "success");
             response.put("data", GeoPack.toList(
-                    GeoPack.getPoints(type, location, convertToMeters(radius))));
+                    GeoPack.getPointsByKeyword(type, location, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,7 +81,7 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, lat, lng, convertToMeters(radius))));
+            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(type, lat, lng, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -119,7 +118,7 @@ public class MainController {
 
     @RequestMapping(value = "/lucky", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String, Object> lucky(
+    Map<String, Object> luckyButton(
             @RequestParam("lat") String lat,
             @RequestParam("lng") String lng) {
         String type = setAnyType();
@@ -127,7 +126,7 @@ public class MainController {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("result", "success");
-            List<Object> result = GeoPack.toList(GeoPack.getPointsByCurrentMarker(type, lat, lng, radius));
+            List<Object> result = GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(type, lat, lng, radius));
             List<Object> responseResult = new ArrayList<>();
             if (result.size() != 0)
                 responseResult.add(result.get(new Random().nextInt(result.size() - 1)));
