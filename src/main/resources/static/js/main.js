@@ -1,16 +1,56 @@
+/*------------------------------------------------------*/
+/* icon - images */
+var iconCurrentPosition = {
+    url: '/images/start_marker.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+var iconPlacesPosition = {
+    url: '/images/places_marker.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+var iconCenterPlacesPosition = {
+    url: '/images/location_small.png',
+    scaledSize: new google.maps.Size(47, 47)
+};
+
+/* maps and params */
+var googleMap;
+var options;
+var zoom = 14;
+
+/* positions */
+var defaultCurrentPosition = {lat: 53.212702, lng: 50.178725};
+var currentPosition;
+var currentAddress = '';
+
+/* infoWindow */
+var infoWindowForCurrentPosition = new google.maps.InfoWindow();
+
+/* markers */
+var markerCurrentPosition;
+var markerCenterPlaces;
+var markers = [];
+
+/* city */
+var default_city = '';
+
+/* rest's types */
+/*------------------------------------------------------*/
 /* html */
 /* div */
 $(document).ready(function () {
     $(".trigger").click(function () {
+        $(".search-type-panel").toggle(false);
         $(".panel").toggle("fast").toggleClass("active");
         return false;
     });
     $(".search").click(function () {
+        $(".search-type-panel").toggle(false);
         $(".city-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".places-panel").toggle(false);
         $(".place-panel").toggle(false);
-        $(".search-panel").toggle("fast").toggleClass("active");
+        $(".search-panel").toggle().toggleClass("active");
         return false;
     });
     $(".city").click(function () {
@@ -18,7 +58,8 @@ $(document).ready(function () {
         $(".hotel-panel").toggle(false);
         $(".places-panel").toggle(false);
         $(".place-panel").toggle(false);
-        $(".city-panel").toggle("fast").toggleClass("active");
+        $(".search-type-panel").toggle(false);
+        $(".city-panel").toggle().toggleClass("active");
         return false;
     });
     $(".hotel").click(function () {
@@ -26,7 +67,8 @@ $(document).ready(function () {
         $(".search-panel").toggle(false);
         $(".places-panel").toggle(false);
         $(".place-panel").toggle(false);
-        $(".hotel-panel").toggle("fast").toggleClass("active");
+        $(".search-type-panel").toggle(false);
+        $(".hotel-panel").toggle().toggleClass("active");
         return false;
     });
     $(".place").click(function () {
@@ -34,21 +76,37 @@ $(document).ready(function () {
         $(".search-panel").toggle(false);
         $(".hotel-panel").toggle(false);
         $(".place-panel").toggle(false);
-        $(".places-panel").toggle("fast").toggleClass("active");
+        $(".search-type-panel").toggle(false);
+        $(".places-panel").toggle().toggleClass("active");
         return false;
     });
     $(".search-keyword").click(function () {
         $(".search-type-panel").toggle(false);
-        $(".search-keyword-panel").toggle("fast").toggleClass("active");
+        $(".search-keyword-panel").toggle().toggleClass("active");
         return false;
     });
     $(".search-type").click(function () {
         $(".search-keyword-panel").toggle(false);
-        $(".search-type-panel").toggle("fast").toggleClass("active");
+        $(".search-type-panel").toggle().toggleClass("active");
         return false;
     });
     $(".place-next").click(function () {
-        $('#page').val = parseInt($('#page').val)+1;
+        $('#page').val = parseInt($('#page').val) + 1;
+    });
+    $("#button-city").click(function () {
+        default_city = document.getElementById('city').value;
+        var location_keyword = document.getElementById('location-keyword');
+        var location_type = document.getElementById('location-type');
+        location_keyword.value = '';
+        location_type.value = '';
+    });
+    $("#location-keyword").click(function () {
+        var location_keyword = document.getElementById('location-keyword');
+        location_keyword.value = default_city + ', ';
+    });
+    $("#location-type").click(function () {
+        var location_type = document.getElementById('location-type');
+        location_type.value = default_city + ', ';
     });
 });
 
@@ -70,42 +128,12 @@ function setWindowPlaces() {
 }
 
 /*------------------------------------------------------*/
-/* icon - images */
-var iconCurrentPosition = {
-    url: '/images/start_marker.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-var iconPlacesPosition = {
-    url: '/images/places_marker.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-var iconCenterPlacesPosition = {
-    url: '/images/location_small.png',
-    scaledSize: new google.maps.Size(47, 47)
-};
-
-/* maps and params */
-var googleMap;
-var options;
-var zoom = 15;
-
-/* positions */
-var defaultCurrentPosition = {lat: 53.212702, lng: 50.178725};
-var currentPosition;
-
-/* infoWindow */
-var infoWindowForCurrentPosition = new google.maps.InfoWindow();
-
-/* markers */
-var markerCurrentPosition;
-var markerCenterPlaces;
-var markers = [];
-
-/*------------------------------------------------------*/
 /* init function */
 $(function () {
     initMap();
-    initSearchWindow();
+   setTimeout(function() {
+       initSearchWindow();
+   },500);
 });
 
 function initMap() {
@@ -123,6 +151,22 @@ function initMap() {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
+
+                var geocoder = new google.maps.Geocoder;
+                var latlng = {lat: currentPosition.lat, lng: currentPosition.lng};
+                geocoder.geocode({'location': latlng}, function (results, status) {
+                    if (status === 'OK') {
+                        if (results[1]) {
+                            currentAddress = results[1].formatted_address;
+                            default_city = results[1].address_components[1].long_name;
+                        } else {
+                            window.alert('No results found');
+                        }
+                    } else {
+                        window.alert('Geocoder failed due to: ' + status);
+                    }
+                });
+
                 setTimeout(function () {
                     googleMap = new google.maps.Map(document.getElementById("map_canvas"), {
                         center: currentPosition,
@@ -143,7 +187,8 @@ function initMap() {
                     google.maps.event.addListener(markerCurrentPosition, 'click', function () {
                         infoWindowForCurrentPosition.setContent('Текущее положение<br/>' +
                             'lat: ' + currentPosition.lat + '<br/>' +
-                            'lng: ' + currentPosition.lng);
+                            'lng: ' + currentPosition.lng + '<br/>' +
+                            currentAddress);
                         infoWindowForCurrentPosition.open(googleMap, this);
                     });
 
@@ -178,14 +223,25 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function initSearchWindow() {
-    var location = document.getElementById('location');
-    var rest = document.getElementById('rest');
-    var radius = document.getElementById('radius');
-    var button = document.getElementById('button');
-    var searchBox2 = new google.maps.places.SearchBox(location);
+    getRestTypes();
+
+    var location_keyword = document.getElementById('location-keyword');
+    var location_type = document.getElementById('location-type');
+
+    var options_location = {
+        language: 'ru'
+    };
+    var autocomplete_location_keyword = new google.maps.places.Autocomplete(location_keyword, options_location);
+    var autocomplete_location_type = new google.maps.places.Autocomplete(location_type, options_location);
+    var options_city = {
+        types: ['(cities)']
+    };
+    var autocomplete_cities = new google.maps.places.Autocomplete(city, options_city);
+
 }
 
 /*------------------------------------------------------*/
+
 /* new city - new map */
 function newGoogleMapByStartPosition(position) {
     markerCurrentPosition.setMap(null);
@@ -199,6 +255,7 @@ function newGoogleMapByStartPosition(position) {
 }
 
 /*------------------------------------------------------*/
+
 /* new markerCurrentPosition */
 function setNewCurrentPositionMarker(lat, lng) {
     currentPosition.lat = lat;
@@ -240,7 +297,7 @@ function deletePlaces() {
     places = [];
 }
 
-function deletePlaceInfo() {
+function deletePlaceInfo(){
 
     var placeInfoBlock = document.getElementById("placeInfo");
     placeInfoBlock.innerHTML = '';
@@ -254,16 +311,27 @@ function setDetailsForPlaces(place) {
 
     var placeInfoBlock = document.createElement("div");
     placeInfoBlock.id = 'placeInfo';
+    var placeInfoBlock = document.getElementById("placeInfo");
+
+    if (placeInfoBlock) {
+        placeInfoBlock.innerHTML = '';
+    }
+    else {
+        placeInfoBlock = document.createElement("div");
+        placeInfoBlock.id = 'placeInfo';
+    }
 
     var name = document.createElement("p");
-    name.innerHTML = "Адрес: "+place.name;
+    name.innerHTML = "Адрес: " + place.name;
 
     var distance = document.createElement("p");
-    distance.innerHTML = "Расстояние от начальной точки: "+place.distance;
+    distance.innerHTML = "Расстояние от начальной точки: " + place.distance;
 
     var duration = document.createElement("p");
-    duration.innerHTML = "Время пути: "+place.duration;
+    duration.innerHTML = "Время пути: " + place.duration;
 
+    var cost = document.createElement("p");
+    cost.innerHTML = "Стоимость ('Туда-Назад'): " + place.cost;
 
     placeInfoBlock.appendChild(name);
     placeInfoBlock.appendChild(distance);
@@ -344,6 +412,7 @@ function setDetailsForPlaces(place) {
 }
 
 /*------------------------------------------------------*/
+
 /* places-panel */
 
 function createWindowPlaces(result) {
@@ -354,7 +423,7 @@ function createWindowPlaces(result) {
         h3.setAttribute("style", "color: rgba(0,0,0,0.6)");
         var a = document.createElement("a");
         a.class = 'place';
-        a.setAttribute("style", "color: rgba(64, 167, 179, 1)");
+        a.setAttribute("style", "color: rgba(64, 167, 179, 1)ж; font-size: 14px");
         a.text = (result[i].vicinity === undefined ? result[i].formatted_address : result[i].vicinity);
         a.href = '#';
         a.title = 'Получить полную информацию';
@@ -374,6 +443,7 @@ function createWindowPlaces(result) {
 }
 
 /*------------------------------------------------------*/
+
 /* markers */
 function deleteMarkers() {
     if (markers.length > 0) {
@@ -414,6 +484,7 @@ function setPlacesMarkers(place) {
 }
 
 /*------------------------------------------------------*/
+
 /* filters */
 function setFilterToPlaces() {
     $.each(places, function (i) {

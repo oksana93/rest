@@ -52,21 +52,26 @@
         <input id="page" name="page" type="hidden" value="1"/>
         <div class="search-keyword-panel">
             <input id="location-keyword" name="location" class="form-control form-control-lg controls" type="text"
-                   placeholder="Введите адрес" style="text-align: center; margin-top: 20px"/>
+                   placeholder="Относительный центр" style="text-align: center; margin-top: 20px"/>
             <input id="keyword" name="type-rest" class="form-control form-control-lg controls" type="text"
-                   placeholder="Параметры поиска" style="text-align: center"/>
+                   placeholder="Ключевое слово" style="text-align: center"/>
             <input id="radius-keyword" name="radius" class="form-control form-control-lg controls" type="number"
-                   placeholder="Максимальное расстояние (км)" style="text-align: center"/>
+                   placeholder="Расстояние (км) до места" style="text-align: center"/>
             <button id="button-keyword" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearchByKeyWord()">Поиск</button>
         </div>
         <div class="search-type-panel">
             <input id="location-type" name="location" class="form-control form-control-lg controls" type="text"
-                   placeholder="Введите адрес" style="text-align: center; margin-top: 20px"/>
-            <input id="type" name="type-rest" class="form-control form-control-lg controls" type="text"
-                   placeholder="" style="text-align: center"/>
+                   placeholder="Относительный центр" style="text-align: center; margin-top: 20px"/>
+            <select id="type" name="type-rest" class="form-control form-control-lg controls" type=""
+                    placeholder="" style="text-align: center"></select>
             <input id="radius-type" name="radius" class="form-control form-control-lg controls" type="number"
-                   placeholder="Максимальное расстояние (км)" style="text-align: center"/>
-            <button id="button-type" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearchByKeyWord()">Поиск</button>
+                   placeholder="Расстояние (км) до места" style="text-align: center"/>
+            <button id="button-type" type="submit" class="form-control form-control-lg controls-button" name="send" onclick="placesSearchByType()">Поиск</button>
+        </div>
+        <div class="search-help">
+            1. Для поиска адреса на карте введите "Относительный центр".<br/><br/>
+            2. Для поиска мест относительно текущего положения по ключевому слову или типу отдыха достаточно ввести "Относительный центр" и ключевое слово или тип. Радиус по умолчанию равен 10 км.<br/><br/>
+            3. Для поиска мест по ключевому слову или типу отдыха достаточно ввести ключевое слово или тип. Радиус по умолчанию равен 10 км.
         </div>
     </div>
     <div class="places-panel" id="places-panel">

@@ -1,3 +1,21 @@
+function getRestTypes() {
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/getTypes',
+        data: {},
+        success: function (response) {
+            var selectType = document.getElementById('type');
+
+            $.each(response, function (i) {
+                var option = document.createElement("option");
+                option.innerHTML = response[i];
+                selectType.appendChild(option);
+            });
+        }
+    });
+}
+
 function placesSearchByKeyWord() {
     var result = [];
     var rest = $("#keyword").val();
@@ -161,7 +179,6 @@ function getNextPlaces() {
 function citySearch() {
     deletePlaces();
     deleteMarkers();
-    setWindowPlaces();
     document.getElementById("place-next").style.visibility = "hidden";
     var city = $("#city").val();
     if (city !== "") {
@@ -174,7 +191,6 @@ function citySearch() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result)
                 $.each(result, function (i) {
                     var position = result[i].geometry.location;
                     newGoogleMapByStartPosition(position)

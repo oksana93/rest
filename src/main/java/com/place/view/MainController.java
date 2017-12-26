@@ -4,10 +4,7 @@ import com.place.google.main.GeoPack;
 import com.place.google.main.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,13 +12,44 @@ import java.util.*;
 @Controller
 
 public class MainController {
-    private final String[] types =
-            {"amusement_park", "aquarium", "art_gallery", "atm", "bar", "beauty_salon", "bicycle_store", "book_store",
-                    "cafe", "campground", "casino", "clothing_store", "convenience_store", "department_store", "electronics_store",
-                    "florist", "food", "furniture_store", "gym", "hair_care", "hardware_store", "health", "hindu_temple", "home_goods_store",
-                    "laundry", "library", "liquor_store", "meal_delivery", "meal_takeaway", "movie_rental", "movie_theater", "moving_company",
-                    "museum", "night_club", "painter", "park", "place_of_worship", "restaurant",
-                    "shoe_store", "shopping_mall", "spa", "stadium", "store", "travel_agency", "zoo"};
+    private static final Map<String,String> types = new HashMap<>();
+    static {
+        types.put("Парк аттракционов", "amusement_park");
+        types.put("Аквариум", "aquarium");
+        types.put("Художественная галерея", "art_gallery");
+        types.put("Бар", "bar");
+        types.put("Салон красоты", "beauty_salon");
+        types.put("Для велосипедистов", "bicycle_store");
+        types.put("Книжный магазин", "book_store");
+        types.put("Интерес", "point_of_interest");
+        types.put("Кафе", "cafe");
+        types.put("Кемпинг", "campground");
+        types.put("Казино", "casino");
+        types.put("Магазин одежды", "clothing_store");
+        types.put("Круглосуточный магазин", "convenience_store");
+        types.put("Флорист", "florist");
+        types.put("Еда", "food");
+        types.put("Тренажерный зал", "gym");
+        types.put("Парикмахерская", "hair_care");
+        types.put("Магазин товаров для дома", "home_goods_store");
+        types.put("Библиотека", "library");
+        types.put("Ресторан", "restaurant");
+        types.put("Алкогольный магазин", "liquor_store");
+        types.put("Доставка еды", "meal_delivery");
+        types.put("Еда навынос", "meal_takeaway");
+        types.put("Фильм", "movie_rental");
+        types.put("Кинотеатр", "movie_theater");
+        types.put("Ночной клуб", "night_club");
+        types.put("Для художников", "painter");
+        types.put("Парк", "park");
+        types.put("Место поклонения", "place_of_worship");
+        types.put("Торговый центр", "shopping_mall");
+        types.put("Спа-салон", "spa");
+        types.put("Стадион", "stadium");
+        types.put("Магазин", "store");
+        types.put("Туристическое агенство", "travel_agency");
+        types.put("Зоопарк", "zoo");
+    }
 
     private final double MIN_FUEL_CONSUMPTION = 1;
     private final double MAX_FUEL_CONSUMPTION = 150;
@@ -58,7 +86,7 @@ public class MainController {
 
     @RequestMapping(value = "/placesSearchByKeyWord", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String, Object> placesSearch(
+    Map<String, Object> placesSearchByKeyWord(
             @RequestParam("location") String location,
             @RequestParam("keyword") String keyword,
             @RequestParam("radius") String radius) {
@@ -76,7 +104,7 @@ public class MainController {
 
     @RequestMapping(value = "/placesSearchByCurrentMarkerAndKeyWord", method = RequestMethod.POST)
     public @ResponseBody
-    Map<String, Object> placesSearchByCurrentMarker(
+    Map<String, Object> placesSearchByCurrentMarkerAndKeyWord(
             @RequestParam("lat") String lat,
             @RequestParam("lng") String lng,
             @RequestParam("keyword") String keyword,
@@ -85,6 +113,42 @@ public class MainController {
         try {
             response.put("result", "success");
             response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(keyword, lat, lng, convertToMeters(radius))));
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/placesSearchByType", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> placesSearchByType(
+            @RequestParam("location") String location,
+            @RequestParam("type") String type,
+            @RequestParam("radius") String radius) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            response.put("result", "success");
+            response.put("data", GeoPack.toList(
+                    GeoPack.getPointsByType(types.get(type), location, convertToMeters(radius))));
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/placesSearchByCurrentMarkerAndType", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> placesSearchByCurrentMarkerAndType(
+            @RequestParam("lat") String lat,
+            @RequestParam("lng") String lng,
+            @RequestParam("type") String type,
+            @RequestParam("radius") String radius) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            response.put("result", "success");
+            response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndType(types.get(type), lat, lng, convertToMeters(radius))));
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,14 +174,14 @@ public class MainController {
 
     private String setAnyType() {
         Random random = new Random();
-        return types[random.nextInt(types.length - 1)];
+        List<String> typeKeys = new ArrayList<>(types.values());
+        return typeKeys.get(random.nextInt(typeKeys.size() - 1));
     }
 
     private String setAnyRadius() {
         int radius = new Random().nextInt(45000) + 5000;
         return String.valueOf(radius);
     }
-
 
     @RequestMapping(value = "/lucky", method = RequestMethod.POST)
     public @ResponseBody
@@ -166,4 +230,11 @@ public class MainController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/getTypes", method = RequestMethod.POST)
+    public @ResponseBody
+    ArrayList<String> getTypes() {
+        return new ArrayList<>(types.keySet());
+    }
+
 }
