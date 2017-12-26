@@ -23,6 +23,9 @@ public class MainController {
                     "museum", "night_club", "painter", "park", "place_of_worship", "restaurant",
                     "shoe_store", "shopping_mall", "spa", "stadium", "store", "travel_agency", "zoo"};
 
+    private final double MIN_FUEL_CONSUMPTION = 1;
+    private final double MAX_FUEL_CONSUMPTION = 150;
+
     private String convertToMeters(String radiusKm) {
         Float radius = Float.valueOf(radiusKm) * 1000;
         return radius.toString();
@@ -120,7 +123,8 @@ public class MainController {
     public @ResponseBody
     Map<String, Object> luckyButton(
             @RequestParam("lat") String lat,
-            @RequestParam("lng") String lng) {
+            @RequestParam("lng") String lng)
+    {
         String type = setAnyType();
         String radius = setAnyRadius();
         Map<String, Object> response = new HashMap<>();
@@ -137,5 +141,29 @@ public class MainController {
             e.printStackTrace();
         }
         return response;
+    }
+
+    @RequestMapping(value = "/getCostFuelConsump", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String,Object> getCostFuelConsumption(
+            @RequestParam("fuelType") String fuelType,
+            @RequestParam("consumption") String consumption,
+            @RequestParam("distance") String distance)
+    {
+        Map<String,Object> response = new HashMap<>();
+
+        consumption = consumption.trim() ;
+        double consumptionFuel = "".equals(consumption) ? 0 : Double.parseDouble(consumption);
+        if (consumptionFuel < MIN_FUEL_CONSUMPTION || consumptionFuel > MAX_FUEL_CONSUMPTION)
+        {
+            response.put("error","Некорректное значение расхода топлива.");
+            return response;
+        }
+        else
+        {
+            int costResult = (int) GeoPack.calculateCost(fuelType, consumptionFuel, Double.parseDouble(distance));
+            response.put("cost", costResult);
+            return response;
+        }
     }
 }

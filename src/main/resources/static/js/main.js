@@ -240,20 +240,20 @@ function deletePlaces() {
     places = [];
 }
 
+function deletePlaceInfo() {
+
+    var placeInfoBlock = document.getElementById("placeInfo");
+    placeInfoBlock.innerHTML = '';
+
+    var costFuelBlock = document.getElementById("costFuelInfo");
+    costFuelBlock.innerHTML = '';
+}
+
 function setDetailsForPlaces(place) {
     var placePanel  = document.getElementById("place-panel");
 
-    var placeInfoBlock = document.getElementById("placeInfo") ;
-
-    if (placeInfoBlock)
-    {
-        placeInfoBlock.innerHTML = '';
-    }
-    else
-    {
-        placeInfoBlock = document.createElement("div");
-        placeInfoBlock.id = 'placeInfo';
-    }
+    var placeInfoBlock = document.createElement("div");
+    placeInfoBlock.id = 'placeInfo';
 
     var name = document.createElement("p");
     name.innerHTML = "Адрес: "+place.name;
@@ -264,16 +264,83 @@ function setDetailsForPlaces(place) {
     var duration = document.createElement("p");
     duration.innerHTML = "Время пути: "+place.duration;
 
-    var cost = document.createElement("p");
-    cost.innerHTML = "Стоимость ('Туда-Назад'): "+place.cost;
 
     placeInfoBlock.appendChild(name);
     placeInfoBlock.appendChild(distance);
     placeInfoBlock.appendChild(duration);
-    placeInfoBlock.appendChild(cost);
+
+    var costFuelBlock = document.createElement("div");
+    costFuelBlock.id = 'costFuelInfo';
+
+    var fuel_1 = document.createElement("input");//92
+    fuel_1.type = 'radio';
+    fuel_1.name = 'fuelGroup';
+    fuel_1.value = '92';
+    fuel_1.className = 'inputFuel';
+    fuel_1.defaultChecked = true;
+    fuel_1.checked = true;
+
+
+    var fuel_2 = document.createElement("input");//95
+    fuel_2.type = 'radio';
+    fuel_2.name = 'fuelGroup';
+    fuel_2.value = '95';
+    fuel_2.className = 'inputFuel';
+
+    var fuel_3 = document.createElement("input");//Дизельное топливо
+    fuel_3.type = 'radio';
+    fuel_3.name = 'fuelGroup';
+    fuel_3.value = '100';
+    fuel_3.className = 'inputFuel';
+
+    var objTextNode1 = document.createTextNode("92");
+    var label_1 = document.createElement("label");
+    label_1.htmlFor = fuel_1.id;
+    label_1.className = 'labelFuel';
+    label_1.appendChild(fuel_1);
+    label_1.appendChild(objTextNode1);
+
+    var objTextNode2 = document.createTextNode("95");
+    var label_2 = document.createElement("label");
+    label_2.htmlFor = fuel_2.id;
+    label_2.className = 'labelFuel';
+    label_2.appendChild(fuel_2);
+    label_2.appendChild(objTextNode2);
+
+    var objTextNode3 = document.createTextNode("Дизель");
+    var label_3 = document.createElement("label");
+    label_3.htmlFor = fuel_3.id;
+    label_3.className = 'labelFuel';
+    label_3.appendChild(fuel_3);
+    label_3.appendChild(objTextNode3);
+
+    var inputConspumpFuel = document.createElement("input");
+    inputConspumpFuel.placeholder = "Расход на 100 км.";
+
+    var calcButton = document.createElement("button");
+    calcButton.id = "calcConsumpFuel";
+    calcButton.textContent = "Рассчитать"
+
+    costFuelBlock.appendChild(label_1);
+    costFuelBlock.appendChild(label_2);
+    costFuelBlock.appendChild(label_3);
+
+    costFuelBlock.appendChild(inputConspumpFuel);
+    costFuelBlock.appendChild(calcButton);
+
+    var fuelElements = document.getElementsByClassName("inputFuel");
+
+    var cost = document.createElement("p");
+    cost.id = 'fuelField';
+    cost.className = 'labelFuel';
+    costFuelBlock.appendChild(cost);
+
+    calcButton.onclick = function () {
+        getCostFuelConsumption(fuelElements,inputConspumpFuel.value,place.distanceValue);
+    }
 
     placePanel.appendChild(placeInfoBlock);
-
+    placePanel.appendChild(costFuelBlock);
 }
 
 /*------------------------------------------------------*/

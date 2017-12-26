@@ -25,12 +25,12 @@ public class GeoPack {
     final static String API_KEY = "AIzaSyBKt9YcXt6RY05eBFlp0pTHoVBvGaomY2U";
     /* API_KEY = AIzaSyCZ8WhzKOPGMPEWCTZ6igOpYJ9ceisZINM */
 
+    final static double FUEL_92 = 37.8;
+    final static double FUEL_95 = 41.2;
+    final static double FUEL_DIZEl = 39.2;
+
     /* Time and distance */
 
-    private static double calculateCost(int distance,double rate)
-    {
-        return (distance/1000)*rate*2;
-    }
 
     public static Map<String, String> getDistanceInfo(Point origin, Point destination) {
         Map<String, String> requestParams = Maps.newHashMap();
@@ -60,9 +60,35 @@ public class GeoPack {
         resultMap.put("name",destinationAddress);
         resultMap.put("duration", location.getJSONObject("duration").getString("text"));
         resultMap.put("distance", location.getJSONObject("distance").getString("text"));
-        resultMap.put("cost", String.valueOf(calculateCost((Integer) location.getJSONObject("distance").get("value"),4.0)+" руб."));
+        resultMap.put("distanceValue", String.valueOf(location.getJSONObject("distance").get("value")));
 
         return resultMap;
+    }
+
+    public static double calculateCost(String type, double consumption, double distance)
+    {
+        double costFuel=0;
+
+        switch (type)
+        {
+            case "92":
+            {
+                costFuel = FUEL_92;
+                break;
+            }
+            case "95":
+            {
+                costFuel = FUEL_95;
+                break;
+            }
+            case "100":
+            {
+                costFuel = FUEL_DIZEl;
+                break;
+            }
+        }
+
+        return distance*(consumption/100)*costFuel;
     }
 
 

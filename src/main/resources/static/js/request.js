@@ -208,6 +208,40 @@ function lucky() {
     });
 }
 
+function getCostFuelConsumption(fuelElements, consumption, distance) {
+
+    var fuelType = '92';
+
+    $.each(fuelElements, function (i) {
+        if (fuelElements[i].checked === true)
+        {
+            fuelType = fuelElements[i].value;
+        }
+    })
+
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: '/getCostFuelConsump',
+        data: {
+            'fuelType': fuelType,
+            'consumption': consumption,
+            'distance':distance
+        },
+        success: function (response) {
+            var fuelField = document.getElementById("fuelField");
+            if (response.error)
+            {
+                fuelField.innerHTML = response.error;
+            }
+            else
+            {
+                fuelField.innerHTML = "Расход на топливо: "+response.cost+" руб.";
+            }
+        }
+    });
+}
+
 function getInfoToDistance(place) {
     var result = [];
     $.ajax({
