@@ -115,13 +115,13 @@ $(document).ready(function () {
         if ($('#opennow').prop('checked')) {/* filters */
             oldPlaces = places;
             deletePlaces();
-            $.each(places, function (i) {
-                if (oldPlaces[i].hasOwnProperty(opening_hour))
-                    if (oldPlaces[i].opening_hour.opennow === "true") {
-                        places[places.length + 1] = oldPlaces[i];
+            $.each(oldPlaces, function (i) {
+                var oldPlace = oldPlaces[i];
+                if (oldPlace.opening_hours != undefined) {
+                    if (oldPlace.opening_hours.open_now === true) {
+                        places[places.length] = oldPlace;
                     }
-                    else
-                        markers[i].setAnimation(null);
+                }
             });
             createWindowPlaces(places);
         }
@@ -444,8 +444,11 @@ function setDetailsForPlaces(place) {
 
 /* places-panel */
 
-function createWindowPlaces(result) {
+function createPlaces(result) {
     places = result;
+}
+
+function createWindowPlaces() {
     var ol = document.getElementById("ol");
     $.each(places, function (i) {
         var h3 = document.createElement("h3");
@@ -491,7 +494,7 @@ function setCenterPlacesMarker(place) {
         position: place.geometry.location,
         icon: iconCenterPlacesPosition
     });
-    places[places.length + 1] = place;
+    places[places.length] = place;
     google.maps.event.addListener(markerCenterPlaces, 'click', function () {
         infoWindowForCurrentPosition.setContent(place.formatted_address);
         infoWindowForCurrentPosition.open(googleMap, this);
@@ -505,12 +508,12 @@ function setPlacesMarkers(place) {
         map: googleMap,
         position: place.geometry.location
     });
-    places[places.length + 1] = place;
+    places[places.length] = place;
     google.maps.event.addListener(marker, 'click', function () {
         infoWindowForCurrentPosition.setContent(place.name);
         infoWindowForCurrentPosition.open(googleMap, this);
     });
-    markers[markers.length + 1] = marker;
+    markers[markers.length] = marker;
 }
 
 /*------------------------------------------------------*/

@@ -21,7 +21,6 @@ function placesSearchByKeyWord() {
     var rest = $("#keyword").val();
     var location = $("#location-keyword").val();
     var radius = $("#radius-keyword").val();
-    var opennow = document.getElementById("opennow");
 
     // document.getElementById("place-next").style.visibility = "hidden";
 
@@ -43,7 +42,8 @@ function placesSearchByKeyWord() {
                 },
                 success: function (response) {
                     result = response.data;
-                    createWindowPlaces(result);
+                    createPlaces(result);
+                    createWindowPlaces();
                     $.each(result, function (i) {
                         setPlacesMarkers(result[i]);
                     });
@@ -59,7 +59,7 @@ function placesSearchByKeyWord() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result)
+                createWindowPlaces();
                 $.each(result, function (i) {
                     setCenterPlacesMarker(result[i], location);
                 });
@@ -80,7 +80,8 @@ function placesSearchByKeyWord() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result);
+                createPlaces(result);
+                createWindowPlaces();
                 $.each(result, function (i) {
                     setPlacesMarkers(result[i]);
                 });
@@ -94,7 +95,6 @@ function placesSearchByType() {
     var rest = $("#type").val();
     var location = $("#location-type").val();
     var radius = $("#radius-type").val();
-    var opennow = document.getElementById("opennow");
     // document.getElementById("place-next").style.visibility = "hidden";
 
     deletePlaces();
@@ -115,7 +115,8 @@ function placesSearchByType() {
                 },
                 success: function (response) {
                     result = response.data;
-                    createWindowPlaces(result);
+                    createPlaces(result);
+                    createWindowPlaces();
                     $.each(result, function (i) {
                         setPlacesMarkers(result[i]);
                     });
@@ -131,7 +132,7 @@ function placesSearchByType() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result)
+                createWindowPlaces();
                 $.each(result, function (i) {
                     setCenterPlacesMarker(result[i], location);
                 });
@@ -152,7 +153,8 @@ function placesSearchByType() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces(result);
+                createPlaces(result);
+                createWindowPlaces();
                 $.each(result, function (i) {
                     setPlacesMarkers(result[i]);
                 });
@@ -171,7 +173,8 @@ function getNextPlaces() {
         data: {},
         success: function (response) {
             result = response.data;
-            createWindowPlaces()
+            createPlaces(result);
+            createWindowPlaces();
             $.each(result, function (i) {
                 setPlacesMarkers(result[i]);
             });
@@ -219,7 +222,8 @@ function lucky() {
         },
         success: function (response) {
             result = response.data;
-            createWindowPlaces(result)
+            createPlaces(result);
+            createWindowPlaces();
             $.each(result, function (i) {
                 setPlacesMarkers(result[i]);
             });
