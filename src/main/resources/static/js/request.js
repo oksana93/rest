@@ -59,10 +59,10 @@ function placesSearchByKeyWord() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces();
                 $.each(result, function (i) {
                     setCenterPlacesMarker(result[i], location);
                 });
+                createWindowPlaces();
             }
         });
     }
@@ -132,10 +132,10 @@ function placesSearchByType() {
             },
             success: function (response) {
                 result = response.data;
-                createWindowPlaces();
                 $.each(result, function (i) {
                     setCenterPlacesMarker(result[i], location);
                 });
+                createWindowPlaces();
             }
         });
     }
@@ -185,6 +185,7 @@ function getNextPlaces() {
 function citySearch() {
     deletePlaces();
     deleteMarkers();
+    deletePlaceInfo();
     // document.getElementById("place-next").style.visibility = "hidden";
     var city = $("#city").val();
     if (city !== "") {
@@ -211,6 +212,7 @@ function lucky() {
     deletePlaces();
     deleteMarkers();
     setWindowPlaces();
+    deletePlaceInfo();
     // document.getElementById("place-next").style.visibility = "hidden";
     $.ajax({
         type: "POST",

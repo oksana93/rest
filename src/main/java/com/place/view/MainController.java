@@ -216,16 +216,22 @@ public class MainController {
         Map<String,Object> response = new HashMap<>();
 
         consumption = consumption.trim() ;
-        double consumptionFuel = "".equals(consumption) ? 0 : Double.parseDouble(consumption);
-        if (consumptionFuel < MIN_FUEL_CONSUMPTION || consumptionFuel > MAX_FUEL_CONSUMPTION)
-        {
+        try {
+            double consumptionFuel = "".equals(consumption) ? 0 : Double.parseDouble(consumption);
+
+            if (consumptionFuel < MIN_FUEL_CONSUMPTION || consumptionFuel > MAX_FUEL_CONSUMPTION)
+            {
+                response.put("error","Некорректное значение расхода топлива.");
+                return response;
+            }
+            else
+            {
+                int costResult = (int) GeoPack.calculateCost(fuelType, consumptionFuel, Double.parseDouble(distance));
+                response.put("cost", costResult);
+                return response;
+            }
+        } catch (NumberFormatException e) {
             response.put("error","Некорректное значение расхода топлива.");
-            return response;
-        }
-        else
-        {
-            int costResult = (int) GeoPack.calculateCost(fuelType, consumptionFuel, Double.parseDouble(distance));
-            response.put("cost", costResult);
             return response;
         }
     }

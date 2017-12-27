@@ -448,7 +448,7 @@ function createPlaces(result) {
     places = result;
 }
 
-function createWindowPlaces() {
+function createWindowPlaces(result) {
     var ol = document.getElementById("ol");
     $.each(places, function (i) {
         var h3 = document.createElement("h3");
@@ -508,7 +508,6 @@ function setPlacesMarkers(place) {
         map: googleMap,
         position: place.geometry.location
     });
-    places[places.length] = place;
     google.maps.event.addListener(marker, 'click', function () {
         infoWindowForCurrentPosition.setContent(place.name);
         infoWindowForCurrentPosition.open(googleMap, this);
