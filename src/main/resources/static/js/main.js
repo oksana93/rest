@@ -152,6 +152,7 @@ function setWindowPlaces() {
 }
 
 /*------------------------------------------------------*/
+/* START */
 /* init function */
 $(function () {
     initMap();
@@ -211,8 +212,7 @@ function initMap() {
                     google.maps.event.addListener(markerCurrentPosition, 'click', function () {
                         infoWindowForCurrentPosition.setContent('Текущее положение<br/>' +
                             'lat: ' + currentPosition.lat + '<br/>' +
-                            'lng: ' + currentPosition.lng + '<br/>' +
-                            currentAddress);
+                            'lng: ' + currentPosition.lng + '<br/>');
                         infoWindowForCurrentPosition.open(googleMap, this);
                     });
 
@@ -257,6 +257,7 @@ function initSearchWindow() {
     };
     var autocomplete_location_keyword = new google.maps.places.Autocomplete(location_keyword, options_location);
     var autocomplete_location_type = new google.maps.places.Autocomplete(location_type, options_location);
+
     var options_city = {
         types: ['(cities)']
     };

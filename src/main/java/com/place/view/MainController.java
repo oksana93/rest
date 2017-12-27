@@ -74,9 +74,9 @@ public class MainController {
     Map<String, Object> placeSearchByLocation(@RequestParam("location") String location) {
         Map<String, Object> response = new HashMap<>();
         try {
-            response.put("result", "success");
             response.put("data", GeoPack.toList(
                     GeoPack.getPointByLocation(location)));
+            response.put("result", "success");
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,9 +92,9 @@ public class MainController {
             @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
-            response.put("result", "success");
             response.put("data", GeoPack.toList(
                     GeoPack.getPointsByKeyword(keyword, location, convertToMeters(radius))));
+            response.put("result", "success");
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,8 +111,8 @@ public class MainController {
             @RequestParam("radius") String radius) {
         Map<String, Object> response = new HashMap<>();
         try {
-            response.put("result", "success");
             response.put("data", GeoPack.toList(GeoPack.getPointsByCurrentMarkerAndKeyWord(keyword, lat, lng, convertToMeters(radius))));
+            response.put("result", "success");
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -170,7 +170,6 @@ public class MainController {
         Map<String, String> response = GeoPack.getDistanceInfo(startPosition, destinationPosition);
         return response;
     }
-
 
     private String setAnyType() {
         Random random = new Random();

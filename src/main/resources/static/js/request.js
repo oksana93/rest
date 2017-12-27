@@ -99,6 +99,7 @@ function placesSearchByType() {
 
     deletePlaces();
     deleteMarkers();
+    deletePlaceInfo();
     setWindowPlaces();
     if (location !== "") { // найти места относительно выбранного положения
         if (rest !== "") {

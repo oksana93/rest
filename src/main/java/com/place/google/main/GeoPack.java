@@ -99,13 +99,14 @@ public class GeoPack {
         requestParams.put("latlng", String.valueOf(point.getLat()) + "," + String.valueOf(point.lng));
         final String url = GEOCODE_URL + '?' + encodeParams(requestParams);
         JSONObject response;
+        JSONObject location = null;
         try {
             response = JsonReader.read(url);
-        } catch (IOException e) {
+            location = response.getJSONArray("results").getJSONObject(0);
+        } catch (Exception e) {
             LOGGER.error("Возникла ошибка во время получения адреса по координатам");
             return null;
         }
-        JSONObject location = response.getJSONArray("results").getJSONObject(0);
         return location.getString("formatted_address");
     }
 
